@@ -10,7 +10,7 @@ if [ "X"$simpath == "X" ]; then
     echo ""
     echo "Before running this script, ensure that simpath is defined:"
     echo ""
-    echo "  export simpath=/path/to/studyTest"
+    echo "  export simpath=/path/to/studySim"
     echo
     exit 1
 fi

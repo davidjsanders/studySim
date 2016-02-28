@@ -1,31 +1,31 @@
-if [ "X"$testpath == "X" ]; then
-    echo "ERROR: testpah is not defined!"
+if [ "X"$simpath == "X" ]; then
+    echo "ERROR: simpath is not defined!"
     echo ""
-    echo "Before running this script, ensure that testpath is defined:"
+    echo "Before running this script, ensure that simpath is defined:"
     echo ""
-    echo "  export testpath=/path/to/studyTest"
+    echo "  export simpath=/path/to/studyTest"
     echo
     exit 1
 fi
 
-source $testpath/includes/variables.sh
-source $testpath/includes/general_ports.sh
-source $testpath/includes/config_logging_fn.sh
-source $testpath/includes/run_docker_fn.sh
-source $testpath/includes/run_docker_phone_fn.sh
-source $testpath/includes/start_phone_fn.sh
-source $testpath/includes/screen_decorations.sh
-source $testpath/includes/pre_test_fn.sh
-source $testpath/includes/post_test_fn.sh
-source $testpath/includes/curl_fn.sh
-source $testpath/includes/bolded_message_fn.sh
+source $simpath/includes/variables.sh
+source $simpath/includes/general_ports.sh
+source $simpath/includes/config_logging_fn.sh
+source $simpath/includes/run_docker_fn.sh
+source $simpath/includes/run_docker_phone_fn.sh
+source $simpath/includes/start_phone_fn.sh
+source $simpath/includes/screen_decorations.sh
+source $simpath/includes/pre_test_fn.sh
+source $simpath/includes/post_test_fn.sh
+source $simpath/includes/curl_fn.sh
+source $simpath/includes/bolded_message_fn.sh
 
 echo
 set +e
 bolded_message "Setup for Test Set 2. Begins at $(date)"
 set -e
 
-source $testpath/includes/validate_docker_network.sh
+source $simpath/includes/validate_docker_network.sh
 
 run_docker $loggerPort "logger" "Logger"
 sleep 2
