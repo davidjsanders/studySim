@@ -21,12 +21,12 @@ function run_docker {
 
 NAME="LV"$(date +%d%m%Y%H%M%S%N)
 
-if [ "X"$testpath == "X" ]; then
-    echo "ERROR: testpath is not defined!"
+if [ "X"$simpath == "X" ]; then
+    echo "ERROR: simpath is not defined!"
     echo ""
-    echo "Before running this script, ensure that testpath is defined:"
+    echo "Before running this script, ensure that simpath is defined:"
     echo ""
-    echo "  export testpath=/path/to/studyTest"
+    echo "  export simpath=/path/to/studyTest"
     echo
     exit 1
 fi
