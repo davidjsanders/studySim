@@ -5,7 +5,7 @@ function start_phone {
         --net=isolated_nw \
         -t dsanderscan/mscit_stage2_phone_screen \
         /bin/bash \
-        -c "/Phone_Screen/Phone_Screen.py --server "$serverIPName" --port 16379" > "${1}.txt" &
+        -c "/Phone_Screen/Phone_Screen.py --server "$serverIP" --port 16379" > "${1}.txt" &
 }
 
 
