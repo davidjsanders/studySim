@@ -6,7 +6,7 @@ function run_docker_phone {
         -e portToUse=$phonePort \
         -e serverName="$serverName" \
         -e TZ=`date +%Z` \
-        -d dsanderscan/mscit_stage2_phone -c /Phone/startup.sh \
+        -d dsanderscan/mscit_stage2_phone
     sleep 1
 }
 
@@ -19,7 +19,7 @@ function run_docker_phone_persist {
         -e serverName="$serverName" \
         -e TZ=`date +%Z` \
         -v $PWD/datavolume:/Phone/datavolume \
-        -d dsanderscan/mscit_stage2_phone -c /Phone/startup.sh \
+        -d dsanderscan/mscit_stage2_phone
     sleep 1
 }
 
