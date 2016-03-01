@@ -4,8 +4,7 @@ function start_phone {
     docker run --name "stage2_phone_screen_"${1} \
         --net=isolated_nw \
         -t dsanderscan/mscit_stage2_phone_screen \
-        /bin/bash \
-        -c "/Phone_Screen/Phone_Screen.py --server "$serverIP" --port 16379" > "${1}.txt" &
+        "--server "$serverIP" --port 16379" > "${1}.txt" &
 }
 
 

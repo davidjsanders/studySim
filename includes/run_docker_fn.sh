@@ -6,7 +6,7 @@ function run_docker {
     docker run -p $1:$1 --name stage2_$2$1 \
         --net=isolated_nw -e portToUse=$1 -e serverName="$serverName" \
         -e TZ=`date +%Z` -v $PWD/$3/datavolume:/$3/datavolume \
-        -d dsanderscan/mscit_stage2_$2 /bin/bash -c /$3/startup.sh
+        -d dsanderscan/mscit_stage2_$2
     sleep 1
 }
 
