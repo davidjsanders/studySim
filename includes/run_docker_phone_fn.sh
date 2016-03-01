@@ -7,7 +7,7 @@ function run_docker_phone {
         -e serverName="$serverName" \
         -e TZ=`date +%Z` \
         -v $PWD/datavolume:/Phone/datavolume \
-        -d dsanderscan/mscit_stage2_phone /bin/bash -c /Phone/startup.sh \
+        -d dsanderscan/mscit_stage2_phone -c /Phone/startup.sh \
     sleep 1
 }
 
