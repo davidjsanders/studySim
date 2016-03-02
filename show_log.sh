@@ -18,6 +18,7 @@ if [ "X$@" == "X" ]; then
 fi
 
 NAME="LV"$(date +%d%m%Y%H%M%S%N)
+echo -n "Running logger in container: "
 docker run -it \
     --name $NAME \
     --net isolated_nw \
