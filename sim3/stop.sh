@@ -25,7 +25,7 @@ set -e
 echo " "
 echo "Stopping services."
 echo ""
-stop_service $STAGE $phonePort "phone"
+stop_service "stage3_" $phonePort "phone"
 stop_service $STAGE $bluePort "bluetooth"
 stop_service $STAGE $locPort "location_service"
 stop_service $STAGE $monitorPort "monitor_app"
