@@ -37,7 +37,7 @@ run_docker "stage2_" $bluePort "bluetooth" "Bluetooth"                   # Bluet
 run_docker "stage2_" $locPort "location_service" "Location_Service"      # Location Service
 run_docker "stage2_" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
 run_docker "stage2_" $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone                                               # Start the phone
+run_docker_phone "stage2_"                                               # Start the phone
 
 echo ""
 echo -n "Pausing to let services complete start-up: "
