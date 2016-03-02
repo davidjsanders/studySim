@@ -33,10 +33,10 @@ sleep 2
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
 sleep 1
 
-run_docker $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
-run_docker $locPort "location_service" "Location_Service"      # Location Service
-run_docker $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker $notesvcPort "notification" "Notification_Service"  # Notification Service
+run_docker "stage2_" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker "stage2_" $locPort "location_service" "Location_Service"      # Location Service
+run_docker "stage2_" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker "stage2_" $notesvcPort "notification" "Notification_Service"  # Notification Service
 run_docker_phone                                               # Start the phone
 
 echo ""
