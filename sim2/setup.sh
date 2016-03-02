@@ -27,17 +27,17 @@ set -e
 
 source $simpath/includes/validate_docker_network.sh
 
-run_docker $loggerPort "logger" "Logger"
+run_docker "stage2_" $loggerPort "logger" "Logger"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
 sleep 1
 
-run_docker $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
-run_docker $locPort "location_service" "Location_Service"      # Location Service
-run_docker $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone                                               # Start the phone
+run_docker "stage2_" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker "stage2_" $locPort "location_service" "Location_Service"      # Location Service
+run_docker "stage2_" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker "stage2_" $notesvcPort "notification" "Notification_Service"  # Notification Service
+run_docker_phone "stage2_"                                               # Start the phone
 
 echo ""
 echo -n "Pausing to let services complete start-up: "
@@ -49,10 +49,10 @@ echo "${underline}Starting phone screens${normal}"
 echo ""
 
 # Setup Jing to be able to see the phone
-start_phone Jing
+start_phone "stage2_" Jing
 
 # Setup Bob to be able to see the phone
-start_phone Bob
+start_phone "stage2_" Bob
 
 echo ""
 echo "${underline}Configure logging.${normal}"

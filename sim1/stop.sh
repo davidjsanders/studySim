@@ -23,14 +23,14 @@ set -e
 echo " "
 echo "Stopping services."
 echo ""
-stop_service $phonePort "phone"
-stop_service $bluePort "bluetooth"
-stop_service $locPort "location_service"
-stop_service $monitorPort "monitor_app"
-stop_service $notesvcPort "notification"
-stop_service $loggerPort "logger"
-stop_phone Jing
-stop_phone Bob
+stop_service "stage2_" $phonePort "phone"
+stop_service "stage2_" $bluePort "bluetooth"
+stop_service "stage2_" $locPort "location_service"
+stop_service "stage2_" $monitorPort "monitor_app"
+stop_service "stage2_" $notesvcPort "notification"
+stop_service "stage2_" $loggerPort "logger"
+stop_phone "stage2_" Jing
+stop_phone "stage2_" Bob
 echo "Services stopped."
 echo ""
 set +e

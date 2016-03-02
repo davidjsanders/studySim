@@ -48,10 +48,10 @@ echo ""
 echo "${underline}Starting phone screens${normal}"
 echo ""
 # Setup Jing to be able to see the phone
-start_phone Jing
+start_phone "stage2_" Jing
 
 # Setup Bob to be able to see the phone
-start_phone Bob
+start_phone "stage2_" Bob
 
 echo ""
 echo "${underline}Configure logging.${normal}"

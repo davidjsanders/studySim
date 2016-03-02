@@ -1,10 +1,11 @@
 function stop_service {
-    # $1 - service port
-    # $2 - service name
-    echo -n "Stopping $2: "
-    docker kill stage2_$2$1
+    # $1 - stage
+    # $2 - service port
+    # $3 - service name
+    echo -n "Stopping $3: "
+    docker kill $1$3$2
     echo -n "Removing reserved name: "
-    docker rm -f stage2_$2$1
+    docker rm -f $1$3$2
     sleep 1
     echo ""
 }
