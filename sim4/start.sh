@@ -37,15 +37,6 @@ do_get "" \
        "Get the current lock status of the phone" \
        $test_id
 
-# Lock the phone
-let test_id=test_id+1
-export data=""
-do_post "${data}" \
-         $phonePort \
-         "/v1_00/config/lock" \
-         "Send an SMS Message to the phone" \
-         $test_id
-
 # Send an SMS Message to the phone
 let test_id=test_id+1
 export data='{'$phoneKey', "sender":"SMS", "message":"This is a text message received via SMS", "action":"open"}'
@@ -53,6 +44,15 @@ do_post "${data}" \
          $phonePort \
          "/v1_00/notification" \
          "Send an SMS Message to the phone" \
+         $test_id
+
+# Lock the phone
+let test_id=test_id+1
+export data=""
+do_post "${data}" \
+         $phonePort \
+         "/v1_00/config/lock" \
+         "Lock the phone" \
          $test_id
 
 # Connect to Monitor App
@@ -158,6 +158,15 @@ do_post "${data}" \
         "/v1_00/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
+
+# Unlock the phone
+let test_id=test_id+1
+export data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/v1_00/config/unlock" \
+       "Unlock the phone" \
+       $test_id
 
 # Disconnect the Monitor App
 let test_id=test_id+1
