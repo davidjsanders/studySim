@@ -20,6 +20,8 @@ source $simpath/includes/post_test_fn.sh
 source $simpath/includes/curl_fn.sh
 source $simpath/includes/bolded_message_fn.sh
 
+STAGE="stage2_"
+
 echo
 set +e
 bolded_message "Setup for Test Set 1. Begins at $(date)"
@@ -27,17 +29,17 @@ set -e
 
 source $simpath/includes/validate_docker_network.sh
 
-run_docker "stage2_" $loggerPort "logger" "Logger"
+run_docker $STAGE $loggerPort "logger" "Logger"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
 sleep 1
 
-run_docker "stage2_" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
-run_docker "stage2_" $locPort "location_service" "Location_Service"      # Location Service
-run_docker "stage2_" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker "stage2_" $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone "stage2_"                                               # Start the phone
+run_docker $STAGE $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker $STAGE $locPort "location_service" "Location_Service"      # Location Service
+run_docker $STAGE $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker $STAGE $notesvcPort "notification" "Notification_Service"  # Notification Service
+run_docker_phone $STAGE                                               # Start the phone
 
 echo ""
 echo -n "Pausing to let services complete start-up: "
@@ -48,10 +50,10 @@ echo ""
 echo "${underline}Starting phone screens${normal}"
 echo ""
 # Setup Jing to be able to see the phone
-start_phone "stage2_" Jing
+start_phone $STAGE Jing
 
 # Setup Bob to be able to see the phone
-start_phone "stage2_" Bob
+start_phone $STAGE Bob
 
 echo ""
 echo "${underline}Configure logging.${normal}"
