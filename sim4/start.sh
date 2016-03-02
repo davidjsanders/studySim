@@ -20,10 +20,12 @@ source $simpath/includes/general_ports.sh
 source $simpath/includes/screen_decorations.sh
 source $simpath/includes/pre_test_fn.sh
 source $simpath/includes/post_test_fn.sh
+source $simpath/includes/stop_phone_fn.sh
 source $simpath/includes/curl_fn.sh
 source $simpath/includes/bolded_message_fn.sh
 
 test_id=0
+STAGE="stage2_"
 
 clear
 bolded_message "Test Set 1. Begins at $(date)"
@@ -158,6 +160,10 @@ do_post "${data}" \
         "/v1_00/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
+
+# Setup Bob's phone
+#((test_id++))
+stop_phone $STAGE Bob
 
 # Unlock the phone
 let test_id=test_id+1

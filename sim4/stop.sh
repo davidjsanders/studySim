@@ -31,6 +31,7 @@ stop_service $STAGE $locPort "location_service"
 stop_service $STAGE $monitorPort "monitor_app"
 stop_service $STAGE $notesvcPort "notification"
 stop_service $STAGE $loggerPort "logger"
+set +e
 stop_phone $STAGE Jing
 stop_phone $STAGE Bob
 echo "Services stopped."
