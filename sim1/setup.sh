@@ -27,7 +27,7 @@ set -e
 
 source $simpath/includes/validate_docker_network.sh
 
-run_docker $loggerPort "logger" "Logger"
+run_docker "stage2_" $loggerPort "logger" "Logger"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
