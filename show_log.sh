@@ -12,8 +12,9 @@ fi
 source $simpath/includes/variables.sh
 source $simpath/includes/general_ports.sh
 
+LEN_LINE=$#
 COMMAND_LINE="$@"
-if [ "X$@" == "X" ]; then
+if [ "$LEN_LINE" == "0" ]; then
     COMMAND_LINE="--logger "$serverIPName":"$loggerPort"/v1_00/log"
 fi
 
