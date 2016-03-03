@@ -33,7 +33,7 @@ set -e
 echo " "
 echo "Stopping services."
 echo ""
-stop_service "stage2_" $phonePort "phone"
+stop_service "stage3_" $phonePort "phone"
 stop_service "stage2_" $bluePort "bluetooth"
 stop_service "stage2_" $locPort "location_service"
 stop_service "stage2_" $monitorPort "monitor_app"
