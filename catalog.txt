@@ -7,4 +7,6 @@ Sim 4 - Stage 2/3. Phone paired with Bluetooth. Notifications not shown or
 Sim 5 - Stage 2/3. Phone paired with Bluetooth. Notifications shown after
         phone is unlocked, regardless of presence of Bob (or others). Data 
         persisted for analysis.
-Sim 6 - Stage 2/3. As sim 2 but showning no notifications when locked.
+Sim 6 - Stage 2/3. As sim 2 but showning no notifications when locked. This is
+        important, because the phone did not show an important notification
+        because it was locked NOT because Bob was present.

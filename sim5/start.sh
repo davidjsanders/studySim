@@ -217,13 +217,11 @@ do_delete "${data}" \
            "Connect to Monitor App. " \
            $test_id
 
-# Stop Jing's phone
-#((test_id++))
-#stop_phone Jing
-
-# Setup Bob's phone
-#((test_id++))
-#stop_phone Bob
+# Save logs
+let test_id=test_id+1
+FILENAME="output_"$(date +%d%M%Y%H%M%S)".log"
+pre_test $test_id "Saving log data to $FILENAME"
+$simpath/show_log.sh > $FILENAME
 
 bolded_message "Tests end at $(date)"
 echo ""
