@@ -36,7 +36,7 @@ set -e
 
 # Check Bob's screen is on.
 let test_id=test_id+1
-pre_test $test_id "Start Bob's phone screen."
+pre_test $test_id "Start Bob's phone screen. IE, he can see Jing's screen."
 start_phone $STAGE Bob
 echo
 
@@ -189,9 +189,14 @@ do_post "${data}" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
 
+# Pause to emphasize log differences
+let test_id=test_id+1
+pre_test $test_id "Pause for 10 seconds to emphasize log differences."
+sleep 10
+
 # Setup Bob's phone
 #((test_id++))
-pre_test $test_id "Stop Bob's phone screen."
+pre_test $test_id "Stop Bob's phone screen. IE, he can no longer see Jing's screen."
 #stop_phone $STAGE Bob
 
 # Unlock the phone
