@@ -30,7 +30,7 @@ test_id=0
 STAGE="stage2_"
 
 clear
-bolded_message "Simulation set 1, begins at $(date)"
+bolded_message "Simulation set 4, begins at $(date)"
 
 set -e
 
@@ -55,6 +55,17 @@ do_get "" \
        "/v1_00/config/pair" \
        "Get the current Bluetooth pairing status of the phone" \
        $test_id
+
+# Pair the phone to the Bluetooth device
+let test_id=test_id+1
+export bluetooth_app='"bluetooth":"'$serverIPName':'$bluePort'/v1_00"'
+export provider='"location-provider":"'$serverIPName':'$phonePort'/v1_00/location"'
+export data='{'$genKey', '$bluetooth_app'}'
+do_post "${data}" \
+        $phonePort \
+        "/v1_00/config/pair" \
+        "Pair the Bluetooth device to the phone" \
+        $test_id
 
 # Send an SMS Message to the phone
 let test_id=test_id+1

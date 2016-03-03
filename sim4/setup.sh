@@ -36,7 +36,7 @@ sleep 2
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
 sleep 1
 
-run_docker $STAGE $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker_persist $STAGE $bluePort "bluetooth" "Bluetooth"           # Bluetooth
 run_docker $STAGE $locPort "location_service" "Location_Service"      # Location Service
 run_docker $STAGE $monitorPort "monitor_app" "Monitor_App"            # Monitor App
 run_docker $STAGE $notesvcPort "notification" "Notification_Service"  # Notification Service
