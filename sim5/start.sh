@@ -30,7 +30,7 @@ test_id=0
 STAGE="stage2_"
 
 clear
-bolded_message "Simulation set 4, begins at $(date)"
+bolded_message "Simulation set 5, begins at $(date)"
 
 set -e
 
@@ -193,6 +193,15 @@ do_post "${data}" \
 #((test_id++))
 pre_test $test_id "Stop Bob's phone screen."
 #stop_phone $STAGE Bob
+
+# Unlock the phone
+let test_id=test_id+1
+export data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/v1_00/config/unlock" \
+       "Unlock the phone" \
+       $test_id
 
 # Disconnect the Monitor App
 let test_id=test_id+1
