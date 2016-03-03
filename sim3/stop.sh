@@ -10,6 +10,7 @@ fi
 
 STAGE="stage2_"
 
+source $simpath/includes/startup.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/general_ports.sh
 source $simpath/includes/stop_phone_fn.sh

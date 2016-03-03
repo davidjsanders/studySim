@@ -8,6 +8,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
+source $simpath/includes/startup.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/general_ports.sh
 source $simpath/includes/config_logging_fn.sh

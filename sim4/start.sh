@@ -14,12 +14,14 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
+source $simpath/includes/startup.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/pause.sh
 source $simpath/includes/general_ports.sh
 source $simpath/includes/screen_decorations.sh
 source $simpath/includes/pre_test_fn.sh
 source $simpath/includes/post_test_fn.sh
+source $simpath/includes/start_phone_fn.sh
 source $simpath/includes/stop_phone_fn.sh
 source $simpath/includes/curl_fn.sh
 source $simpath/includes/bolded_message_fn.sh
@@ -31,12 +33,27 @@ clear
 bolded_message "Test Set 1. Begins at $(date)"
 
 set +e
+
+# Check Bob's screen is on.
+let test_id=test_id+1
+echo "Step $test_id Check if Bob's phone screen is on."
+start_phone $STAGE Bob
+echo
+
 # Get lock status of the phone
 let test_id=test_id+1
 do_get "" \
        $phonePort \
        "/v1_00/config/lock" \
        "Get the current lock status of the phone" \
+       $test_id
+
+# Get the Bluetooth pairing status of the phone
+let test_id=test_id+1
+do_get "" \
+       $phonePort \
+       "/v1_00/config/pair" \
+       "Get the current Bluetooth pairing status of the phone" \
        $test_id
 
 # Send an SMS Message to the phone

@@ -8,6 +8,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
+source $simpath/includes/startup.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/general_ports.sh
 source $simpath/includes/config_logging_fn.sh
@@ -25,10 +26,10 @@ STAGE="stage2_"
 echo
 set +e
 bolded_message "Setup for Test Set 1. Begins at $(date)"
-set -e
 
 source $simpath/includes/validate_docker_network.sh
 
+set -e
 run_docker $STAGE $loggerPort "logger" "Logger"
 sleep 2
 
