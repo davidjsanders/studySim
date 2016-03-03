@@ -21,26 +21,24 @@ source $simpath/includes/post_test_fn.sh
 source $simpath/includes/curl_fn.sh
 source $simpath/includes/bolded_message_fn.sh
 
-STAGE="stage2_"
-
 echo
 set +e
-bolded_message "Setup for Simulation Set 5. Begins at $(date)"
+bolded_message "Setup for Test Set 2. Begins at $(date)"
+set -e
 
 source $simpath/includes/validate_docker_network.sh
 
-set -e
-run_docker $STAGE $loggerPort "logger" "Logger"
+run_docker "stage2_" $loggerPort "logger" "Logger"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/v1_00/log' "Clear logs."
 sleep 1
 
-run_docker_persist $STAGE $bluePort "bluetooth" "Bluetooth"           # Bluetooth
-run_docker $STAGE $locPort "location_service" "Location_Service"      # Location Service
-run_docker $STAGE $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker $STAGE $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone_persist "stage3_"                                    # Start the phone
+run_docker_persist "stage2_" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker "stage2_" $locPort "location_service" "Location_Service"      # Location Service
+run_docker "stage2_" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker "stage2_" $notesvcPort "notification" "Notification_Service"  # Notification Service
+run_docker_phone_persist "stage3_"                                               # Start the phone
 
 echo ""
 echo -n "Pausing to let services complete start-up: "
@@ -50,11 +48,12 @@ echo "done."
 echo ""
 echo "${underline}Starting phone screens${normal}"
 echo ""
+
 # Setup Jing to be able to see the phone
-start_phone $STAGE Jing
+start_phone "stage2_" Jing
 
 # Setup Bob to be able to see the phone
-start_phone $STAGE Bob
+start_phone "stage2_" Bob
 
 echo ""
 echo "${underline}Configure logging.${normal}"
@@ -67,7 +66,6 @@ config_logging $phonePort "Phone"                    # Phone
 echo ""
 echo "Logging configured."
 echo ""
-
 set +e
-bolded_message "Setup for Simulation Set 5. Ends at $(date)."
+bolded_message "Setup for Test Set 2. Ends at $(date)."
 echo

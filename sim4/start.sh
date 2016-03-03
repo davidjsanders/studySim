@@ -192,7 +192,16 @@ do_post "${data}" \
 # Setup Bob's phone
 #((test_id++))
 pre_test $test_id "Stop Bob's phone screen."
-#stop_phone $STAGE Bob
+stop_phone $STAGE Bob
+
+# Unlock the phone
+let test_id=test_id+1
+export data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/v1_00/config/unlock" \
+       "Unlock the phone" \
+       $test_id
 
 # Disconnect the Monitor App
 let test_id=test_id+1

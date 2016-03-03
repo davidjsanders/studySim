@@ -1,0 +1,10 @@
+Sim 1 - Stage 2. App launching notifications seen by anyone who can see phone.
+Sim 2 - Stage 2. Geolocation notifications seen by anyone who can see phone.
+Sim 3 - Stage 2/3. Notifications not shown when phone is locked.
+Sim 4 - Stage 2/3. Phone paired with Bluetooth. Notifications not shown or
+        announced when phone is locked. Bob can no longer see the phone, Jing
+        unlocks it and notifications show. Data persisted for analysis.
+Sim 5 - Stage 2/3. Phone paired with Bluetooth. Notifications shown after
+        phone is unlocked, regardless of presence of Bob (or others). Data 
+        persisted for analysis.
+Sim 6 - Stage 2/3. As sim 2 but showning no notifications when locked.

@@ -153,6 +153,25 @@ do_post "${data}" \
         "Launch the phone mail client - A Notification will NOT be issued" \
         $test_id
 
+# Unlock the phone
+let test_id=test_id+1
+export data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/v1_00/config/unlock" \
+       "Unlock the phone" \
+       $test_id
+
+# Setup Bob's phone
+#((test_id++))
+pre_test $test_id "Stop Bob's phone screen. IE, he can no longer see Jing's screen."
+stop_phone $STAGE Bob
+
+# Pause to emphasize log differences
+let test_id=test_id+1
+pre_test $test_id "Pause for 10 seconds to emphasize log differences."
+sleep 10
+
 # Send a text message to the phone
 let test_id=test_id+1
 export data='{'$phoneKey', "sender":"SMS", "message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John.", "action":"open"}'
@@ -188,25 +207,6 @@ do_post "${data}" \
         "/v1_00/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
-
-# Pause to emphasize log differences
-let test_id=test_id+1
-pre_test $test_id "Pause for 10 seconds to emphasize log differences."
-sleep 10
-
-# Setup Bob's phone
-#((test_id++))
-pre_test $test_id "Stop Bob's phone screen. IE, he can no longer see Jing's screen."
-#stop_phone $STAGE Bob
-
-# Unlock the phone
-let test_id=test_id+1
-export data='{'$genKey'}'
-do_put "${data}" \
-       $phonePort \
-       "/v1_00/config/unlock" \
-       "Unlock the phone" \
-       $test_id
 
 # Disconnect the Monitor App
 let test_id=test_id+1
