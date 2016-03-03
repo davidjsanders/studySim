@@ -3,7 +3,8 @@ function bolded_message {
     if [ "X${1}" == "X"  ]; then
         let OUTPUT_TEXT = "Simulation ended at $(date)"
     fi
-    COUNTER=81
+    COUNTER=$(tput cols)
+    let COUNTER=COUNTER+1
     OUTPUT_TEXT_LENGTH=${#OUTPUT_TEXT}
     echo -n "${bold}"
     echo -n $OUTPUT_TEXT
