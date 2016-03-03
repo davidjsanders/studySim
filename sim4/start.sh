@@ -30,13 +30,13 @@ test_id=0
 STAGE="stage2_"
 
 clear
-bolded_message "Test Set 1. Begins at $(date)"
+bolded_message "Simulation set 1, begins at $(date)"
 
-set +e
+set -e
 
 # Check Bob's screen is on.
 let test_id=test_id+1
-echo "Step $test_id Check if Bob's phone screen is on."
+pre_test $test_id "Start Bob's phone screen."
 start_phone $STAGE Bob
 echo
 
@@ -180,6 +180,7 @@ do_post "${data}" \
 
 # Setup Bob's phone
 #((test_id++))
+pre_test $test_id "Stop Bob's phone screen."
 stop_phone $STAGE Bob
 
 # Unlock the phone
@@ -209,5 +210,5 @@ do_delete "${data}" \
 #stop_phone Bob
 
 bolded_message "Tests end at $(date)"
-
+echo ""
 

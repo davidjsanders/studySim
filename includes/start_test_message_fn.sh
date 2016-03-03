@@ -1,7 +1,7 @@
 function start_test_message {
     OUTPUT_TEXT=$1
     if [ "X"$1 == "X"  ]; then
-        let OUTPUT_TEXT = "Test Execution begins at "$(date)
+        let OUTPUT_TEXT = "Simulation Execution begins at "$(date)
     fi
     echo $(tput clear)
     COUNTER=80

@@ -1,6 +1,6 @@
 function pre_test {
     echo ""
-    echo "${underline}Test $1: ${2}${normal}"
+    echo "${underline}Step $1: ${2}${normal}"
     echo $(date)
 }
 
