@@ -16,6 +16,7 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 source $simpath/includes/startup.sh
+source $simpath/includes/shutdown.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/pause.sh
 source $simpath/includes/general_ports.sh
@@ -109,6 +110,9 @@ do_delete "${data}" \
            "/v1_00/config/monitor" \
            "Connect to Monitor App. " \
            $test_id
+
+# Save logs
+finalize
 
 bolded_message "Tests end at $(date)"
 

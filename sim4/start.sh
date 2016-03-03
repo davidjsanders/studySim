@@ -15,6 +15,7 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 source $simpath/includes/startup.sh
+source $simpath/includes/shutdown.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/pause.sh
 source $simpath/includes/general_ports.sh
@@ -212,13 +213,8 @@ do_delete "${data}" \
            "Connect to Monitor App. " \
            $test_id
 
-# Stop Jing's phone
-#((test_id++))
-#stop_phone Jing
-
-# Setup Bob's phone
-#((test_id++))
-#stop_phone Bob
+# Save logs
+finalize
 
 bolded_message "Tests end at $(date)"
 echo ""

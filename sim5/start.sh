@@ -15,6 +15,7 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 source $simpath/includes/startup.sh
+source $simpath/includes/shutdown.sh
 source $simpath/includes/variables.sh
 source $simpath/includes/pause.sh
 source $simpath/includes/general_ports.sh
@@ -218,10 +219,7 @@ do_delete "${data}" \
            $test_id
 
 # Save logs
-let test_id=test_id+1
-FILENAME="output_"$(date +%d%M%Y%H%M%S)".log"
-pre_test $test_id "Saving log data to $FILENAME"
-$simpath/show_log.sh > $FILENAME
+finalize
 
 bolded_message "Tests end at $(date)"
 echo ""
