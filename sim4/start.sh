@@ -192,6 +192,7 @@ do_post "${data}" \
 
 # Setup Bob's phone
 #((test_id++))
+let test_id=test_id+1
 pre_test $test_id "Stop Bob's phone screen."
 stop_phone $STAGE Bob
 
