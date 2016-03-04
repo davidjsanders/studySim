@@ -19,5 +19,6 @@ docker pull dsanderscan/mscit_stage2_monitor_app
 docker pull dsanderscan/mscit_stage2_location_service
 docker pull dsanderscan/mscit_stage2_notification
 docker pull dsanderscan/mscit_stage2_phone
-docker pull dsanderscan/mscit_stage3_phone
 docker pull dsanderscan/mscit_stage2_phone_screen
+docker pull dsanderscan/mscit_stage3_phone
+docker pull dsanderscan/mscit_stage3_monitor_app
