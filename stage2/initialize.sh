@@ -15,7 +15,7 @@ start_message "${SIM_HEADING}"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Ensure studysim is up to date"
-cd $studysim
+cd $simpath
 git pull
 cd $current_directory
 
