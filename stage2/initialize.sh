@@ -4,6 +4,7 @@ STAGE_PATH="stage2"
 STAGE=$STAGE_PATH"_"
 SIM_HEADING="Downloading Docker Images"
 
+current_directory=$(pwd)
 source $simpath/$STAGE_PATH/includes/includes.sh
 
 pause "Pull down of latest Docker containers, "
@@ -11,6 +12,12 @@ pause "Pull down of latest Docker containers, "
 set +e
 clear
 start_message "${SIM_HEADING}"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Ensure studysim is up to date"
+cd $studysim
+git pull
+cd $current_directory
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down stage 2 base"
