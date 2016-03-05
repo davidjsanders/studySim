@@ -54,7 +54,7 @@ do_get "" \
 
 # Set the app_msg
 let test_id=test_id+1
-export data='{'$genKey', "message-text":"Careful mon ami! Always think ahead!"}'
+export data='{'$genKey', "message-text":"Hey Jing! Ring, ring!"}'
 do_put "${data}" \
        $monitorPort \
        "/v1_00/config/message/app_msg" \

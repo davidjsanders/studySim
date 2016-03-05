@@ -9,7 +9,7 @@ function run_docker {
         docker run -p $2:$2 --name $1$3$2 \
             --net=isolated_nw -e portToUse=$2 -e serverName="$serverName" \
             -e TZ=`date +%Z` \
-            -d dsanderscan/mscit_$1$3
+            -d $package$1$3
         sleep 1
     else
         echo "Instance already running."
@@ -28,7 +28,7 @@ function run_docker_persist {
         docker run -p $2:$2 --name $1$3$2 \
             --net=isolated_nw -e portToUse=$2 -e serverName="$serverName" \
             -e TZ=`date +%Z` -v $(pwd)/$4/datavolume:/$4/datavolume \
-            -d dsanderscan/mscit_$1$3
+            -d $package$1$3
         sleep 1
     else
         echo "Instance already running."
