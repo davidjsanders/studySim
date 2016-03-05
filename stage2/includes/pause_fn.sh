@@ -8,5 +8,6 @@ function pause {
         let COUNTER=COUNTER-1
         echo -n ", "$COUNTER
     done
+    sleep 1
     echo ". Starting."
 }
