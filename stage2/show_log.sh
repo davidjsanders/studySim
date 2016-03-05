@@ -15,17 +15,22 @@ INCLUDE_PATH=$simpath/$STAGE_PATH/includes
 
 source $INCLUDE_PATH/includes.sh
 
+# TODO
+# Think about how to change this to support multiple instances and
+# still have a default option?
+#
 LEN_LINE=$#
 COMMAND_LINE="$@"
-if [ "$LEN_LINE" == "0" ]; then
-    COMMAND_LINE="--logger "$serverIPName":"$loggerPort"/v1_00/log"
-fi
+stage="stage3_"
+#if [ "$LEN_LINE" == "0" ]; then
+#    COMMAND_LINE="--logger "$serverIPName":"$loggerPort"/v1_00/log"
+#fi
 
 NAME="LV"$(date +%d%m%Y%H%M%S%N)
 echo -n "Running logger in container: "
 docker run -it \
     --name $NAME \
     --net isolated_nw \
-    dsanderscan/mscit_stage2_log_viewer $COMMAND_LINE
+    $package$stage""log_viewer $COMMAND_LINE
 docker rm -f $NAME
 
