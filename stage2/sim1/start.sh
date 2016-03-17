@@ -17,6 +17,7 @@ fi
 STAGE_PATH="stage2"
 STAGE=$STAGE_PATH"_"
 SIM_HEADING="Simulation set 1"
+version="v1_00"
 
 source $simpath/$STAGE_PATH/includes/includes.sh
 
@@ -30,7 +31,7 @@ start_message "${SIM_HEADING}"
 let test_id=test_id+1
 do_get "" \
        $phonePort \
-       "/v1_00/config/lock" \
+       "/$version/config/lock" \
        "Get the current lock status of the phone" \
        $test_id
 
@@ -39,7 +40,7 @@ let test_id=test_id+1
 export data=""
 do_post "${data}" \
          $phonePort \
-         "/v1_00/config/lock" \
+         "/$version/config/lock" \
          "Send an SMS Message to the phone" \
          $test_id
 
@@ -48,21 +49,21 @@ let test_id=test_id+1
 export data='{'$phoneKey', "sender":"SMS", "message":"This is a text message received via SMS", "action":"open"}'
 do_post "${data}" \
          $phonePort \
-         "/v1_00/notification" \
+         "/$version/notification" \
          "Send an SMS Message to the phone" \
          $test_id
 
 # Connect to Monitor App
 let test_id=test_id+1
-export monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/v1_00"'
-export service='"notification-service":"'$serverIPName':'$notesvcPort'/v1_00/notification"'
-export recipient='"recipient":"'$serverIPName':'$phonePort'/v1_00/notification"'
-export location='"location-service":"'$serverIPName':'$locPort'/v1_00/check"'
-export provider='"location-provider":"'$serverIPName':'$phonePort'/v1_00/location"'
+export monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$version'"'
+export service='"notification-service":"'$serverIPName':'$notesvcPort'/'$version'/notification"'
+export recipient='"recipient":"'$serverIPName':'$phonePort'/'$version'/notification"'
+export location='"location-service":"'$serverIPName':'$locPort'/'$version'/check"'
+export provider='"location-provider":"'$serverIPName':'$phonePort'/'$version'/location"'
 export data='{'$genKey', '$monitor_app', '$service', '$recipient', '$location', '$provider'}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/config/monitor" \
+        "/$version/config/monitor" \
         "Connect to Monitor App. " \
         $test_id
 
@@ -71,7 +72,7 @@ let test_id=test_id+1
 export data='{'$genKey', "description":"Grindr is an app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
-        "/v1_00/app/grindr" \
+        "/$version/app/grindr" \
         "Configure Grindr as a monitored application" \
         $test_id
 
@@ -80,7 +81,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
-       "/v1_00/app/grindr" \
+       "/$version/app/grindr" \
        "Validate Grindr is being monitored" \
         $test_id
 
@@ -89,7 +90,7 @@ let test_id=test_id+1
 export data='{'$genKey', "description":"ManHunt is a location based app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
-        "/v1_00/app/manhunt" \
+        "/$version/app/manhunt" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
@@ -98,7 +99,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/config/launch/facebook" \
+        "/$version/config/launch/facebook" \
         "Launch the Facebook client - A Notification will NOT be issued" \
         $test_id
 
@@ -107,7 +108,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/config/launch/grindr" \
+        "/$version/config/launch/grindr" \
         "Launch Grindr - A Notification will be issued" \
         $test_id
 
@@ -116,7 +117,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/config/launch/mailclient" \
+        "/$version/config/launch/mailclient" \
         "Launch the phone mail client - A Notification will NOT be issued" \
         $test_id
 
@@ -125,7 +126,7 @@ let test_id=test_id+1
 export data='{'$phoneKey', "sender":"SMS", "message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John.", "action":"open"}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/notification" \
+        "/$version/notification" \
         "Send a text message to the phone" \
         $test_id
 
@@ -134,7 +135,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_delete "${data}" \
           $monitorPort \
-          "/v1_00/app/grindr" \
+          "/$version/app/grindr" \
           "Stop monitoring Grindr" \
           $test_id
 
@@ -143,7 +144,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
-       "/v1_00/app/grindr" \
+       "/$version/app/grindr" \
        "Validate Grindr is no longer being monitored. Monitor_App returns 404" \
         $test_id
 
@@ -152,7 +153,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
-        "/v1_00/config/launch/grindr" \
+        "/$version/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
 
@@ -161,7 +162,7 @@ let test_id=test_id+1
 export data='{'$genKey'}'
 do_delete "${data}" \
            $phonePort \
-           "/v1_00/config/monitor" \
+           "/$version/config/monitor" \
            "Connect to Monitor App. " \
            $test_id
 

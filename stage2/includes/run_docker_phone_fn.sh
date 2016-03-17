@@ -5,6 +5,7 @@ function run_docker_phone {
         docker run -p $redis_port:6379 -p $phonePort:$phonePort \
             --net=isolated_nw \
             --name $1phone$phonePort \
+            -e hostIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`" \
             -e portToUse=$phonePort \
             -e serverName="$serverName" \
             -e TZ=`date +%Z` \
@@ -23,6 +24,7 @@ function run_docker_phone_persist {
         docker run -p $redis_port:6379 -p $phonePort:$phonePort \
             --net=isolated_nw \
             --name $1phone$phonePort \
+            -e hostIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`" \
             -e portToUse=$phonePort \
             -e serverName="$serverName" \
             -e TZ=`date +%Z` \
