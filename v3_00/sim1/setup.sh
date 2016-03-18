@@ -24,17 +24,17 @@ set +e
 start_message "${sim_heading}"
 set -e
 
-run_docker $loggerPort "logger" "Logger"
+run_docker_persist "v3_00" $loggerPort "logger" "Logger"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/'$version'/log' "Clear logs."
 sleep 1
 
-run_docker_persist $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
-run_docker_persist $locPort "location_service" "Location_Service"      # Location Service
-run_docker_persist $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker_persist $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone_persist                                               # Start the phone
+run_docker_persist "v3_00" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
+run_docker_persist "v3_00" $locPort "location_service" "Location_Service"      # Location Service
+run_docker_persist "v3_00" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker_persist "v3_00" $notesvcPort "notification" "Notification_Service"  # Notification Service
+run_docker_phone_persist "v3_00"                                               # Start the phone
 
 echo ""
 echo -n "Pausing to let services complete start-up: "

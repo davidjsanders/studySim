@@ -1,4 +1,5 @@
 function run_docker_phone {
+    # $1 - Run Version - Note $version is the presented as version
     echo -n "Starting phone (port $phonePort on $serverName): "
     check_docker "$version"_phone_"$phonePort"   # sets $DOCKER_CHECK
     if [ "X" == "${DOCKER_CHECK}" ]; then
@@ -10,7 +11,7 @@ function run_docker_phone {
             -e portToUse=$phonePort \
             -e serverName="$serverName" \
             -e TZ=`date +%Z` \
-            -d $package${version}"_"phone
+            -d $package$1"_"phone
         sleep 1
     else
         echo "Phone already running."
@@ -25,7 +26,7 @@ function run_docker_phone_persist {
         docker run -p $redis_port:6379 -p $phonePort:$phonePort \
             --net=isolated_nw \
             --name $version"_phone_"$phonePort \
-            -e version=$version \
+            -e version=$presentAs \
             -e hostIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`" \
             -e portToUse=$phonePort \
             -e serverName="$serverName" \
