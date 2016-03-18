@@ -17,7 +17,7 @@ source $simpath/$stage_path/includes/_do_first.sh
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (no context) shutdown"
+sim_heading="Simulation set 1 (with obfuscation) shutdown"
 
 clear
 set +e

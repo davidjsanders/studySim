@@ -24,7 +24,7 @@ source $simpath/$stage_path/includes/_do_first.sh
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (no context) execution"
+sim_heading="Simulation set 1 (with obfuscation) execution"
 
 pause "Please ensure setup has been run; simulation "
 

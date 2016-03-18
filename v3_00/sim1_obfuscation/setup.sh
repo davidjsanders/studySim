@@ -17,7 +17,7 @@ source $simpath/$stage_path/includes/_do_first.sh
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (no context) setup"
+sim_heading="Simulation set 1 (with obfuscation) setup"
 
 clear
 set +e
@@ -32,7 +32,7 @@ sleep 1
 
 run_docker "v3_00" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
 run_docker "v3_00" $locPort "location_service" "Location_Service"      # Location Service
-run_docker "v3_00" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
+run_docker "v3_01" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
 run_docker "v3_00" $notesvcPort "notification" "Notification_Service"  # Notification Service
 run_docker_phone "v3_00"                                               # Start the phone
 
