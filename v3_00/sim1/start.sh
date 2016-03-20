@@ -51,21 +51,25 @@ do_post "${data}" \
 
 # Send an SMS Message to the phone
 let test_id=test_id+1
-export data='{'$phoneKey', "sender":"SMS", "message":"This is a text message received via SMS", "action":"open"}'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+sender='"sender":"SMS Service"'
+action='"action":"Read Text"'
+message='"message":"This is a text message received via SMS"'
+data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
-         $phonePort \
+         $notesvcPort \
          "/"$presentAs"/notification" \
          "Send an SMS Message to the phone" \
          $test_id
 
 # Connect to Monitor App
 let test_id=test_id+1
-export monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$version'"'
-export service='"notification-service":"'$serverIPName':'$notesvcPort'/'$version'/notification"'
-export recipient='"recipient":"'$serverIPName':'$phonePort'/'$version'/notification"'
-export location='"location-service":"'$serverIPName':'$locPort'/'$version'/check"'
-export provider='"location-provider":"'$serverIPName':'$phonePort'/'$version'/location"'
-export data='{'$genKey', '$monitor_app', '$service', '$recipient', '$location', '$provider'}'
+monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$presentAs'"'
+service='"notification-service":"'$serverIPName':'$notesvcPort'/'$presentAs'/notification"'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+location='"location-service":"'$serverIPName':'$locPort'/'$presentAs'/check"'
+provider='"location-provider":"'$serverIPName':'$phonePort'/'$presentAs'/location"'
+data='{'$genKey', '$monitor_app', '$service', '$recipient', '$location', '$provider'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/monitor" \
@@ -132,14 +136,18 @@ do_post "${data}" \
         "Launch the phone mail client - A Notification will NOT be issued" \
         $test_id
 
-# Send a text message to the phone
+# Send an SMS Message to the phone
 let test_id=test_id+1
-export data='{'$phoneKey', "sender":"SMS", "message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John.", "action":"open"}'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+sender='"sender":"SMS Service"'
+action='"action":"Read Text"'
+message='"message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
+data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
-        $phonePort \
-        "/"$presentAs"/notification" \
-        "Send a text message to the phone" \
-        $test_id
+         $notesvcPort \
+         "/"$presentAs"/notification" \
+         "Send an SMS Message to the phone" \
+         $test_id
 
 # Stop monitoring Grindr
 let test_id=test_id+1

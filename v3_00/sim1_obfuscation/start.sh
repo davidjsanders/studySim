@@ -40,32 +40,27 @@ do_get "" \
        "Get the current lock status of the phone" \
        $test_id
 
-# Lock the phone
-let test_id=test_id+1
-export data=""
-do_post "${data}" \
-         $phonePort \
-         "/"$presentAs"/config/lock" \
-         "Send an SMS Message to the phone" \
-         $test_id
-
 # Send an SMS Message to the phone
 let test_id=test_id+1
-export data='{'$phoneKey', "sender":"SMS", "message":"This is a text message received via SMS", "action":"open"}'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+sender='"sender":"SMS Service"'
+action='"action":"Read Text"'
+message='"message":"This is a text message received via SMS"'
+data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
-         $phonePort \
+         $notesvcPort \
          "/"$presentAs"/notification" \
          "Send an SMS Message to the phone" \
          $test_id
 
 # Connect to Monitor App
 let test_id=test_id+1
-export monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$version'"'
-export service='"notification-service":"'$serverIPName':'$notesvcPort'/'$version'/notification"'
-export recipient='"recipient":"'$serverIPName':'$phonePort'/'$version'/notification"'
-export location='"location-service":"'$serverIPName':'$locPort'/'$version'/check"'
-export provider='"location-provider":"'$serverIPName':'$phonePort'/'$version'/location"'
-export data='{'$genKey', '$monitor_app', '$service', '$recipient', '$location', '$provider'}'
+monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$presentAs'"'
+service='"notification-service":"'$serverIPName':'$notesvcPort'/'$presentAs'/notification"'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+location='"location-service":"'$serverIPName':'$locPort'/'$presentAs'/check"'
+provider='"location-provider":"'$serverIPName':'$phonePort'/'$presentAs'/location"'
+data='{'$genKey', '$monitor_app', '$service', '$recipient', '$location', '$provider'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/monitor" \
@@ -74,7 +69,7 @@ do_post "${data}" \
 
 # Configure Grindr as a monitored application
 let test_id=test_id+1
-export data='{'$genKey', "description":"Grindr is an app for men seeking men"}'
+data='{'$genKey', "description":"Grindr is an app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
         "/"$presentAs"/app/grindr" \
@@ -83,7 +78,7 @@ do_post "${data}" \
 
 # Validate Grindr is being monitored
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
        "/"$presentAs"/app/grindr" \
@@ -92,16 +87,25 @@ do_get "${data}" \
 
 # Configure ManHunt as a monitored application
 let test_id=test_id+1
-export data='{'$genKey', "description":"ManHunt is a location based app for men seeking men"}'
+data='{'$genKey', "description":"ManHunt is a location based app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
         "/"$presentAs"/app/manhunt" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
+# Lock the phone
+let test_id=test_id+1
+data=""
+do_post "${data}" \
+         $phonePort \
+         "/"$presentAs"/config/lock" \
+         "Send an SMS Message to the phone" \
+         $test_id
+
 # Launch the Facebook client - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/facebook" \
@@ -110,7 +114,7 @@ do_post "${data}" \
 
 # Launch Grindr - A Notification will be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/grindr" \
@@ -118,32 +122,36 @@ do_post "${data}" \
         $test_id
 
 # Pause for 10 seconds to let the notification be detected
-let test_id=test_id+1
-pre_test $test_id "Sleeping for 10 seconds to allow Grindr to be detected."
-sleep 10
-echo
+#let test_id=test_id+1
+#pre_test $test_id "Sleeping for 10 seconds to allow Grindr to be detected."
+#sleep 10
+#echo
 
 # Launch the phone mail client - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/mailclient" \
         "Launch the phone mail client - A Notification will NOT be issued" \
         $test_id
 
-# Send a text message to the phone
+# Send an SMS Message to the phone
 let test_id=test_id+1
-export data='{'$phoneKey', "sender":"SMS", "message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John.", "action":"open"}'
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+sender='"sender":"SMS Service"'
+action='"action":"Read Text"'
+message='"message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
+data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
-        $phonePort \
-        "/"$presentAs"/notification" \
-        "Send a text message to the phone" \
-        $test_id
+         $notesvcPort \
+         "/"$presentAs"/notification" \
+         "Send an SMS Message to the phone" \
+         $test_id
 
 # Stop monitoring Grindr
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_delete "${data}" \
           $monitorPort \
           "/"$presentAs"/app/grindr" \
@@ -152,7 +160,7 @@ do_delete "${data}" \
 
 # Validate Grindr is no longer being monitored
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
        "/"$presentAs"/app/grindr" \
@@ -161,16 +169,25 @@ do_get "${data}" \
 
 # Launch Grindr - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
 
+# Unlock the phone
+let test_id=test_id+1
+data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/"$presentAs"/config/unlock" \
+       "Unlock the phone" \
+       $test_id
+
 # Disconnect the Monitor App
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_delete "${data}" \
            $phonePort \
            "/"$presentAs"/config/monitor" \
