@@ -9,7 +9,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
-STAGE_PATH="stage2"
+STAGE_PATH="v3_00"
 STAGE=$STAGE_PATH"_"
 INCLUDE_PATH=$simpath/$STAGE_PATH/includes
 
