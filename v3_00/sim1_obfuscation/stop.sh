@@ -33,7 +33,6 @@ stop_service $monitorPort "monitor_app"
 stop_service $notesvcPort "notification"
 stop_service $loggerPort "logger"
 stop_phone Jing
-stop_phone Bob
 echo "Services stopped."
 echo ""
 set +e
