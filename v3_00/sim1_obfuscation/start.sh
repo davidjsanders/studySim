@@ -209,7 +209,8 @@ do_delete "${data}" \
            $test_id
 
 # Save logs
-finalize
+docker run -it dsanderscan/mscit_v3_00_log_viewer --logger http://$hostIPName:$loggerPort/$presentAs/log
+#finalize
 
 stop_message "${sim_heading}"
 
