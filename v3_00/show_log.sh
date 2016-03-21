@@ -27,6 +27,7 @@ stage="v3_00_"
 #fi
 
 NAME="LV"$(date +%d%m%Y%H%M%S%N)
+echo "Container is "$package""$stage""log_viewer $COMMAND_LINE
 echo -n "Running logger in container: "
 docker run -it \
     --name $NAME \
