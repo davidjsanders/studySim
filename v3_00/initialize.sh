@@ -11,7 +11,7 @@ pause "Pull down of latest Docker containers, "
 
 set +e
 clear
-start_message "${sim_heading} - v2_00"
+start_message "${sim_heading} - v3_00"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Ensure studysim is up to date"
@@ -58,13 +58,7 @@ docker pull $package""$version"_phone_screen"
 #
 # v3_00
 #
-start_message "${sim_heading} - v3_00"
-
-let stage_count=stage_count+1
-pre_test $stage_count "Ensure studysim is up to date"
-cd $simpath
-git pull
-cd $current_directory
+start_message "${sim_heading} - v3_01"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_01 Monitor App"
