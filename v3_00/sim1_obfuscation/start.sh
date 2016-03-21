@@ -208,9 +208,10 @@ do_delete "${data}" \
            "Disconnect from Monitor App. " \
            $test_id
 
-# Save logs
-docker run -it dsanderscan/mscit_v3_00_log_viewer --logger http://$hostIPName:$loggerPort/$presentAs/log
-#finalize
 
+# End simulation
+let test_id=test_id+1
+pre_test $test_id "Simulation completed. Remember to view the logs."
+echo
 stop_message "${sim_heading}"
 
