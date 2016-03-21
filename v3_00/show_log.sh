@@ -33,5 +33,5 @@ docker run -it \
     --name $NAME \
     --net isolated_nw \
     $package""$stage""log_viewer $COMMAND_LINE
-docker rm -f $NAME
+#docker rm -f $NAME
 
