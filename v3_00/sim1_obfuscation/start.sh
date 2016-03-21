@@ -205,7 +205,7 @@ data='{'$genKey'}'
 do_delete "${data}" \
            $phonePort \
            "/"$presentAs"/config/monitor" \
-           "Connect to Monitor App. " \
+           "Disconnect from Monitor App. " \
            $test_id
 
 # Save logs
