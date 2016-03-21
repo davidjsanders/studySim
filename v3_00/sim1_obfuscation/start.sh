@@ -40,6 +40,15 @@ do_get "" \
        "Get the current lock status of the phone" \
        $test_id
 
+# Unlock the phone
+let test_id=test_id+1
+data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/"$presentAs"/config/unlock" \
+       "Unlock the phone" \
+       $test_id
+
 # Send an SMS Message to the phone
 let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
@@ -100,7 +109,7 @@ data=""
 do_post "${data}" \
          $phonePort \
          "/"$presentAs"/config/lock" \
-         "Send an SMS Message to the phone" \
+         "Lock the phone" \
          $test_id
 
 # Launch the Facebook client - A Notification will NOT be issued
@@ -120,12 +129,6 @@ do_post "${data}" \
         "/"$presentAs"/config/launch/grindr" \
         "Launch Grindr - A Notification will be issued" \
         $test_id
-
-# Pause for 10 seconds to let the notification be detected
-#let test_id=test_id+1
-#pre_test $test_id "Sleeping for 10 seconds to allow Grindr to be detected."
-#sleep 10
-#echo
 
 # Launch the phone mail client - A Notification will NOT be issued
 let test_id=test_id+1
@@ -175,6 +178,17 @@ do_post "${data}" \
         "/"$presentAs"/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
+
+# Bob can no longer see the screen
+let test_id=test_id+1
+pre_test $test_id "Bob leaves and can no longer see the phone screen."
+stop_phone Bob
+
+# Pause for 5 seconds to let the notification be detected
+let test_id=test_id+1
+pre_test $test_id "Sleeping for 5 seconds to persist notifications."
+sleep 5
+echo
 
 # Unlock the phone
 let test_id=test_id+1

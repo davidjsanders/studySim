@@ -11,7 +11,7 @@ pause "Pull down of latest Docker containers, "
 
 set +e
 clear
-start_message "${sim_heading}"
+start_message "${sim_heading} - v2_00"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Ensure studysim is up to date"
@@ -20,40 +20,59 @@ git pull
 cd $current_directory
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 base"
+pre_test $stage_count "Pull down v3_00 base"
 docker pull $package""$version"_base"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 bluetooth"
+pre_test $stage_count "Pull down v3_00 bluetooth"
 docker pull $package""$version"_bluetooth"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 logger"
+pre_test $stage_count "Pull down v3_00 logger"
 docker pull $package""$version"_logger"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 log viewer"
+pre_test $stage_count "Pull down v3_00 log viewer"
 docker pull $package""$version"_log_viewer"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 monitor app"
+pre_test $stage_count "Pull down v3_00 monitor app"
 docker pull $package""$version"_monitor_app"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 location service"
+pre_test $stage_count "Pull down v3_00 location service"
 docker pull $package""$version"_location_service"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 notification service"
+pre_test $stage_count "Pull down v3_00 notification service"
 docker pull $package""$version"_notification"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 phone"
+pre_test $stage_count "Pull down v3_00 phone"
 docker pull $package""$version"_phone"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down stage 2 phone screen"
+pre_test $stage_count "Pull down v3_00 phone screen"
 docker pull $package""$version"_phone_screen"
+
+#
+# v3_00
+#
+start_message "${sim_heading} - v3_00"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Ensure studysim is up to date"
+cd $simpath
+git pull
+cd $current_directory
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v3_01 Monitor App"
+docker pull $package"v3_01_monitor_app"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v3_01 Phone"
+docker pull $package"v3_01_phone"
 
 stop_message "${sim_heading}"
 
