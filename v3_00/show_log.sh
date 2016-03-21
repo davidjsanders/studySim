@@ -13,7 +13,7 @@ STAGE_PATH="v3_00"
 STAGE=$STAGE_PATH"_"
 INCLUDE_PATH=$simpath/$STAGE_PATH/includes
 
-source $INCLUDE_PATH/includes.sh
+source $INCLUDE_PATH/_do_first.sh
 
 # TODO
 # Think about how to change this to support multiple instances and
