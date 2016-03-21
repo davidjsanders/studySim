@@ -21,7 +21,7 @@ source $INCLUDE_PATH/includes.sh
 #
 LEN_LINE=$#
 COMMAND_LINE="$@"
-stage="stage3_"
+stage="v3_00_"
 #if [ "$LEN_LINE" == "0" ]; then
 #    COMMAND_LINE="--logger "$serverIPName":"$loggerPort"/v1_00/log"
 #fi
@@ -31,6 +31,6 @@ echo -n "Running logger in container: "
 docker run -it \
     --name $NAME \
     --net isolated_nw \
-    $package$stage""log_viewer $COMMAND_LINE
+    $package""$stage""log_viewer $COMMAND_LINE
 docker rm -f $NAME
 
