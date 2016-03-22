@@ -26,13 +26,13 @@ function run_docker_phone_persist {
         docker run -p $redis_port:6379 -p $phonePort:$phonePort \
             --net=isolated_nw \
             --name $version"_phone_"$phonePort \
-            -e version=$presentAs \
+            -e version=$version \
             -e hostIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`" \
             -e portToUse=$phonePort \
             -e serverName="$serverName" \
             -e TZ=`date +%Z` \
             -v $PWD/Phone/datavolume:/Phone/datavolume \
-            -d $package${version}"_"phone
+            -d $package$1"_"phone
         sleep 1
     else
         echo "Phone already running."
