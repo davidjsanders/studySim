@@ -12,6 +12,10 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 stage_path="v3_00"
+
+#set -e
+source $simpath/$stage_path/includes/check_params.sh
+
 source $simpath/$stage_path/includes/_do_first.sh
 
 #
@@ -24,17 +28,27 @@ set +e
 start_message "${sim_heading}"
 set -e
 
-run_docker "v3_00" $loggerPort "logger" "Logger"
+# Logger
+run_docker "v3_00" $loggerPort "logger" "Logger" "${save_param}"
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/'$version'/log' "Clear logs."
 sleep 1
 
-run_docker "v3_00" $bluePort "bluetooth" "Bluetooth"                   # Bluetooth
-run_docker "v3_00" $locPort "location_service" "Location_Service"      # Location Service
-run_docker "v3_01" $monitorPort "monitor_app" "Monitor_App"            # Monitor App
-run_docker "v3_00" $notesvcPort "notification" "Notification_Service"  # Notification Service
-run_docker_phone "v3_01"                                               # Start the phone
+# Bluetooth
+run_docker "v3_00" $bluePort "bluetooth" "Bluetooth" "${save_param}"
+
+# Location Service
+run_docker "v3_00" $locPort "location_service" "Location_Service" "${save_param}"
+
+# Monitor App
+run_docker "v3_01" $monitorPort "monitor_app" "Monitor_App" "${save_param}"
+
+# Notification Service
+run_docker "v3_00" $notesvcPort "notification" "Notification_Service" "${save_param}"
+
+# Start the phone
+run_docker_phone "v3_01" "${save_param}"
 
 echo ""
 echo -n "Pausing to let services complete start-up: "

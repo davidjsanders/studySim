@@ -1,8 +1,8 @@
-let start_port=43124
-if [ $# -ne 0 ]; then
-    echo "Changing ports to $1"
-    let start_port=$1
-fi
+#let start_port=43124
+#if [ $# -ne 0 ]; then
+#    echo "Changing ports to $1"
+#    let start_port=$1
+#fi
 
 export loggerPort=$start_port
 
