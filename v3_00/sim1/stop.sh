@@ -12,9 +12,9 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 stage_path="v3_00"
-source $simpath/$stage_path/includes/check_params.sh
+source $simpath/includes/check_params.sh
 
-source $simpath/$stage_path/includes/_do_first.sh
+source $simpath/includes/_do_first.sh
 
 #
 # Simulation 1 Configuration

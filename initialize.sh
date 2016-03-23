@@ -3,7 +3,7 @@ let stage_count=0
 stage_path="v3_00"
 current_directory=$(pwd)
 
-source $simpath/$stage_path/includes/_do_first.sh
+source $simpath/includes/_do_first.sh
 
 sim_heading="Downloading Docker Images"
 

@@ -8,11 +8,15 @@ number_expression='^[0-9]+$'
 save_param=''
 let error_occurred=0
 
-usage() { echo "Usage: $0 [-p >1023] [-s] [-h]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-p >1023] [-l http://server:port/ver/log] [-n service-name] [-h]" 1>&2; exit 1; }
 
-while getopts ":shp:" param; do
+while getopts "hn:l:p:" param; do
     case "$param" in
-        s) save_param="PERSIST"
+        l) logger_param=$OPTARG
+           ;;
+        n) name_param=$OPTARG
+           ;;
+        h) usage
            ;;
         p) port=$OPTARG
            if ! [[ $port =~ $number_expression ]]; then
@@ -26,8 +30,6 @@ while getopts ":shp:" param; do
                let error_occurred=1
                break
            fi
-           ;;
-        h) usage
            ;;
         *) not_allowed="invalid option: -"$OPTARG
            let error_occurred=1
