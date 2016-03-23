@@ -212,6 +212,20 @@ do_delete "${data}" \
            $test_id
 
 
+# Get the phone's screen
+let test_id=test_id+1
+screen_filename="screen-"$(date +%d-%m-%Y-%H%M%S)".txt"
+pre_test $test_id "Downloading phone main screen saving to ${screen_filename}"
+wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}"
+echo
+
+# Get the central log file
+let test_id=test_id+1
+log_filename="log-"$(date +%d-%m-%Y-%H%M%S)".csv"
+pre_test $test_id "Downloading central log file (csv) to ${screen_filename}"
+wget $serverIPName:$loggerPort/$presentAs/logfile -O "${log_filename}"
+echo
+
 # End simulation
 let test_id=test_id+1
 pre_test $test_id "Simulation completed. Remember to view the logs."

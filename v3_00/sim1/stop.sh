@@ -12,12 +12,14 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 stage_path="v3_00"
+source $simpath/$stage_path/includes/check_params.sh
+
 source $simpath/$stage_path/includes/_do_first.sh
 
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (no context) shutdown"
+sim_heading="Simulation set 1 (with obfuscation) shutdown"
 
 clear
 set +e
@@ -33,7 +35,6 @@ stop_service $monitorPort "monitor_app"
 stop_service $notesvcPort "notification"
 stop_service $loggerPort "logger"
 stop_phone Jing
-stop_phone Bob
 echo "Services stopped."
 echo ""
 set +e

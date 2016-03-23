@@ -19,12 +19,15 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 stage_path="v3_00"
+
+source $simpath/$stage_path/includes/check_params.sh
+
 source $simpath/$stage_path/includes/_do_first.sh
 
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (no context) execution"
+sim_heading="Simulation set 1 (with obfuscation) execution"
 
 pause "Please ensure setup has been run; simulation "
 
@@ -40,14 +43,14 @@ do_get "" \
        "Get the current lock status of the phone" \
        $test_id
 
-# Lock the phone
+# Unlock the phone
 let test_id=test_id+1
-export data=""
-do_post "${data}" \
-         $phonePort \
-         "/"$presentAs"/config/lock" \
-         "Send an SMS Message to the phone" \
-         $test_id
+data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/"$presentAs"/config/unlock" \
+       "Unlock the phone" \
+       $test_id
 
 # Send an SMS Message to the phone
 let test_id=test_id+1
@@ -78,7 +81,7 @@ do_post "${data}" \
 
 # Configure Grindr as a monitored application
 let test_id=test_id+1
-export data='{'$genKey', "description":"Grindr is an app for men seeking men"}'
+data='{'$genKey', "description":"Grindr is an app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
         "/"$presentAs"/app/grindr" \
@@ -87,7 +90,7 @@ do_post "${data}" \
 
 # Validate Grindr is being monitored
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
        "/"$presentAs"/app/grindr" \
@@ -96,16 +99,25 @@ do_get "${data}" \
 
 # Configure ManHunt as a monitored application
 let test_id=test_id+1
-export data='{'$genKey', "description":"ManHunt is a location based app for men seeking men"}'
+data='{'$genKey', "description":"ManHunt is a location based app for men seeking men"}'
 do_post "${data}" \
         $monitorPort \
         "/"$presentAs"/app/manhunt" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
+# Lock the phone
+let test_id=test_id+1
+data=""
+do_post "${data}" \
+         $phonePort \
+         "/"$presentAs"/config/lock" \
+         "Lock the phone" \
+         $test_id
+
 # Launch the Facebook client - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/facebook" \
@@ -114,22 +126,16 @@ do_post "${data}" \
 
 # Launch Grindr - A Notification will be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/grindr" \
         "Launch Grindr - A Notification will be issued" \
         $test_id
 
-# Pause for 10 seconds to let the notification be detected
-let test_id=test_id+1
-pre_test $test_id "Sleeping for 10 seconds to allow Grindr to be detected."
-sleep 10
-echo
-
 # Launch the phone mail client - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/mailclient" \
@@ -151,7 +157,7 @@ do_post "${data}" \
 
 # Stop monitoring Grindr
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_delete "${data}" \
           $monitorPort \
           "/"$presentAs"/app/grindr" \
@@ -160,7 +166,7 @@ do_delete "${data}" \
 
 # Validate Grindr is no longer being monitored
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_get "${data}" \
        $monitorPort \
        "/"$presentAs"/app/grindr" \
@@ -169,24 +175,60 @@ do_get "${data}" \
 
 # Launch Grindr - A Notification will NOT be issued
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_post "${data}" \
         $phonePort \
         "/"$presentAs"/config/launch/grindr" \
         "Launch Grindr - A Notification will NOT be issued" \
         $test_id
 
+# Bob can no longer see the screen
+let test_id=test_id+1
+pre_test $test_id "Bob leaves and can no longer see the phone screen."
+stop_phone Bob
+
+# Pause for 5 seconds to let the notification be detected
+let test_id=test_id+1
+pre_test $test_id "Sleeping for 5 seconds to persist notifications."
+sleep 5
+echo
+
+# Unlock the phone
+let test_id=test_id+1
+data='{'$genKey'}'
+do_put "${data}" \
+       $phonePort \
+       "/"$presentAs"/config/unlock" \
+       "Unlock the phone" \
+       $test_id
+
 # Disconnect the Monitor App
 let test_id=test_id+1
-export data='{'$genKey'}'
+data='{'$genKey'}'
 do_delete "${data}" \
            $phonePort \
            "/"$presentAs"/config/monitor" \
-           "Connect to Monitor App. " \
+           "Disconnect from Monitor App. " \
            $test_id
 
-# Save logs
-finalize
 
+# Get the phone's screen
+let test_id=test_id+1
+screen_filename="screen-"$(date +%d-%m-%Y-%H%M%S)".txt"
+pre_test $test_id "Downloading phone main screen saving to ${screen_filename}"
+wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}"
+echo
+
+# Get the central log file
+let test_id=test_id+1
+log_filename="log-"$(date +%d-%m-%Y-%H%M%S)".csv"
+pre_test $test_id "Downloading central log file (csv) to ${screen_filename}"
+wget $serverIPName:$loggerPort/$presentAs/logfile -O "${log_filename}"
+echo
+
+# End simulation
+let test_id=test_id+1
+pre_test $test_id "Simulation completed. Remember to view the logs."
+echo
 stop_message "${sim_heading}"
 
