@@ -30,7 +30,7 @@ NAME="LV"$(date +%d%m%Y%H%M%S%N)
 echo "Running logger in container."
 echo "  Container is "$package""$stage"log_viewer"
 echo "  Logger is ${logger_param}"
-echo -n "Running logger in container: "
+echo 
 docker run -it \
     --name $NAME \
     --net isolated_nw \
