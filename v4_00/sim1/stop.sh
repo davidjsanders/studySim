@@ -33,6 +33,7 @@ stop_service $bluePort "bluetooth"
 stop_service $locPort "location_service"
 stop_service $monitorPort "monitor_app"
 stop_service $notesvcPort "notification"
+stop_service $contextPort "context"
 stop_service $loggerPort "logger"
 stop_phone Jing
 echo "Services stopped."

@@ -23,6 +23,9 @@ let redis_port=start_port+100
 export phonePort=$start_port
 export phoneRedisPort=$redis_port
 
+let start_port=start_port+1
+export contextPort=$start_port
+
 export serverName=`hostname`
 export serverIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`"
 export serverIPName="http://"$serverIP

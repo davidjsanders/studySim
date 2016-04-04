@@ -47,6 +47,9 @@ run_docker "v3_01" $monitorPort "monitor_app" "Monitor_App" "${save_param}"
 # Notification Service
 run_docker "v3_00" $notesvcPort "notification" "Notification_Service" "${save_param}"
 
+# Context Service
+run_docker "v4_00" $contextPort "context" "Context" "${save_param}"
+
 # Start the phone
 run_docker_phone "v4_00" "${save_param}"
 
@@ -71,6 +74,7 @@ config_logging $bluePort "Bluetooth"                 # Bluetooth
 config_logging $locPort "Location Service"           # Location Service
 config_logging $monitorPort "Monitor App"            # Monitor App
 config_logging $notesvcPort "Notification Service"   # Notification Service
+config_logging $contextPort "Context Service"        # Context Service
 config_logging $phonePort "Phone"                    # Phone
 echo ""
 echo "Logging configured."
