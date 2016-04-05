@@ -35,27 +35,38 @@ set +e
 clear
 start_message "${sim_heading}"
 
-# Get lock status of the phone
+# Connect the phone to the context engine
 let test_id=test_id+1
-do_get "" \
-       $phonePort \
-       "/"$presentAs"/config/lock" \
-       "Get the current lock status of the phone" \
-       $test_id
-
-# Unlock the phone
-let test_id=test_id+1
-data='{'$genKey'}'
+context='"context-engine":"'$serverIPName':'$contextPort'/'$presentAs'/subscribe"'
+data='{'$genKey', '$context'}'
 do_put "${data}" \
        $phonePort \
-       "/"$presentAs"/config/unlock" \
-       "Unlock the phone" \
+       "/"$presentAs"/config/context" \
+       "Set the phone to connect to the context engine at "$serverIPName":"$contextPort \
        $test_id
+
+# lock the phone
+let test_id=test_id+1
+data='{'$genKey'}'
+do_post "${data}" \
+        $phonePort \
+        "/"$presentAs"/config/lock" \
+        "Lock the phone" \
+        $test_id
+
+# Set the phone to show notifications when locked
+let test_id=test_id+1
+data='{'$genKey'}'
+do_post "${data}" \
+        $phonePort \
+        "/"$presentAs"/config/show-on-lock" \
+        "Set the phone to show notifications when locked" \
+        $test_id
 
 # Send an SMS Message to the phone
 let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
-sender='"sender":"SMS Service"'
+sender='"sender":"SMS"'
 action='"action":"Read Text"'
 message='"message":"This is a text message received via SMS"'
 data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
@@ -64,6 +75,18 @@ do_post "${data}" \
          "/"$presentAs"/notification" \
          "Send an SMS Message to the phone" \
          $test_id
+
+# Set a context privacy state
+let test_id=test_id+1
+state='with_others'
+value='"value":"TRUE"'
+ttl='"time-to-live":10000'
+data='{'$genKey', '$value', '$ttl'}'
+do_post "${data}" \
+        $phonePort \
+        "/"$presentAs"/config/state/"$state \
+        "Set a context state: with others = True. TTL is 10,000 seconds for testing" \
+        $test_id
 
 # Connect to Monitor App
 let test_id=test_id+1
@@ -106,15 +129,6 @@ do_post "${data}" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
-# Lock the phone
-let test_id=test_id+1
-data=""
-do_post "${data}" \
-         $phonePort \
-         "/"$presentAs"/config/lock" \
-         "Lock the phone" \
-         $test_id
-
 # Launch the Facebook client - A Notification will NOT be issued
 let test_id=test_id+1
 data='{'$genKey'}'
@@ -145,9 +159,9 @@ do_post "${data}" \
 # Send an SMS Message to the phone
 let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
-sender='"sender":"SMS Service"'
+sender='"sender":"SMS"'
 action='"action":"Read Text"'
-message='"message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
+message='"message":"Can you pick me up at Starbucks, please? Thanks John."'
 data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
          $notesvcPort \
@@ -193,14 +207,30 @@ pre_test $test_id "Sleeping for 5 seconds to persist notifications."
 sleep 5
 echo
 
-# Unlock the phone
+# Remove the context privacy state
 let test_id=test_id+1
+state='with_others'
 data='{'$genKey'}'
-do_put "${data}" \
-       $phonePort \
-       "/"$presentAs"/config/unlock" \
-       "Unlock the phone" \
-       $test_id
+do_delete "${data}" \
+          $phonePort \
+          "/"$presentAs"/config/state/"$state \
+          "Remove the context state 'with others' now Bob has left" \
+          $test_id
+
+# Unlock the phone
+#let test_id=test_id+1
+#data='{'$genKey'}'
+#do_put "${data}" \
+#       $phonePort \
+#       "/"$presentAs"/config/unlock" \
+#       "Unlock the phone" \
+#       $test_id
+
+# Pause for 5 seconds to let the notification be detected
+let test_id=test_id+1
+pre_test $test_id "Sleeping for 5 seconds to allow notifications to be detected."
+sleep 5
+echo
 
 # Disconnect the Monitor App
 let test_id=test_id+1
