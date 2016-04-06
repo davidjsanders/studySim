@@ -45,14 +45,13 @@ do_put "${data}" \
        "Set the phone to connect to the context engine at "$serverIPName":"$contextPort \
        $test_id
 
-# Turn autosense off
+# Turn autosense on
 let test_id=test_id+1
-context='"context-engine":"'$serverIPName':'$contextPort'/'$presentAs'/subscribe"'
 data='{'$genKey'}'
-do_delete "${data}" \
+do_post "${data}" \
           $phonePort \
           "/"$presentAs"/config/auto-sense" \
-          "Set the phone auto sense feature to off." \
+          "Set the phone auto sense feature to on to check profanity, etc." \
           $test_id
 
 # lock the phone
@@ -78,12 +77,13 @@ let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
 sender='"sender":"SMS"'
 action='"action":"Read Text"'
+urgency='"urgency":false'
 message='"message":"This is a text message received via SMS"'
-data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
+data='{'$genKey', '$urgency', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
          $notesvcPort \
          "/"$presentAs"/notification" \
-         "Send an SMS Message to the phone" \
+         "Send an SMS Message to the phone marked non-urgent" \
          $test_id
 
 # Set a context privacy state

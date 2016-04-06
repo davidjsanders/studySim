@@ -42,10 +42,10 @@ run_docker "v3_00" $bluePort "bluetooth" "Bluetooth" "${save_param}"
 run_docker "v3_00" $locPort "location_service" "Location_Service" "${save_param}"
 
 # Monitor App
-run_docker "v3_01" $monitorPort "monitor_app" "Monitor_App" "${save_param}"
+run_docker "v4_00" $monitorPort "monitor_app" "Monitor_App" "${save_param}"
 
 # Notification Service
-run_docker "v3_00" $notesvcPort "notification" "Notification_Service" "${save_param}"
+run_docker "v4_00" $notesvcPort "notification" "Notification_Service" "${save_param}"
 
 # Context Service
 run_docker "v4_00" $contextPort "context" "Context" "${save_param}"
