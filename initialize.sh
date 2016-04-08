@@ -11,7 +11,7 @@ pause "Pull down of latest Docker containers, "
 
 set +e
 clear
-start_message "${sim_heading} - v3_00"
+start_message "${sim_heading} - git repo"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Ensure studysim is up to date"
@@ -19,9 +19,15 @@ cd $simpath
 git pull
 cd $current_directory
 
+echo
+start_message "${sim_heading} - base"
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down v3_00 base"
-docker pull $package""$version"_base"
+pre_test $stage_count "Base container"
+docker pull $package"_base"
+
+echo
+start_message "${sim_heading} - Pull down v3_00 containers"
+version="v3_00"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_00 bluetooth"
@@ -55,18 +61,55 @@ let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_00 phone screen"
 docker pull $package""$version"_phone_screen"
 
+stop_message "${sim_heading} $version"
+
 #
-# v3_00
+# v3_01
 #
-start_message "${sim_heading} - v3_01"
+echo
+start_message "${sim_heading} - Pull down v3_01 containers"
+version="v3_01"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_01 Monitor App"
-docker pull $package"v3_01_monitor_app"
+docker pull $package""$version"_monitor_app"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_01 Phone"
-docker pull $package"v3_01_phone"
+docker pull $package""$version"_phone"
 
-stop_message "${sim_heading}"
+stop_message "${sim_heading} $version"
+
+#
+# v4_00
+#
+echo
+start_message "${sim_heading} - Pull down v4_00 containers"
+version="v4_00"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Context"
+docker pull $package""$version"_context"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Door Bell"
+docker pull $package""$version"_door_bell"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Monitor App"
+docker pull $package""$version"_monitor_app"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Notification Service"
+docker pull $package""$version"_notification"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Phone"
+docker pull $package""$version"_phone"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v4_00 Presence"
+docker pull $package""$version"_presence"
+
+stop_message "${sim_heading} $version"
 
