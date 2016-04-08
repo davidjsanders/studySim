@@ -92,8 +92,8 @@ pre_test $stage_count "Pull down v4_00 Context"
 docker pull $package""$version"_context"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down v4_00 Door Bell"
-docker pull $package""$version"_door_bell"
+pre_test $stage_count "Pull down v1_00 Door Bell"
+docker pull $package"v1_00_door_bell"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v4_00 Monitor App"
@@ -108,8 +108,8 @@ pre_test $stage_count "Pull down v4_00 Phone"
 docker pull $package""$version"_phone"
 
 let stage_count=stage_count+1
-pre_test $stage_count "Pull down v4_00 Presence"
-docker pull $package""$version"_presence"
+pre_test $stage_count "Pull down v1_00 Presence"
+docker pull $package"v1_00_presence"
 
 stop_message "${sim_heading} $version"
 
