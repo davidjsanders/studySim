@@ -23,7 +23,7 @@ echo
 start_message "${sim_heading} - base"
 let stage_count=stage_count+1
 pre_test $stage_count "Base container"
-docker pull $package"_base"
+docker pull $package"base"
 
 echo
 start_message "${sim_heading} - Pull down v3_00 containers"
