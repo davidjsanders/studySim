@@ -13,8 +13,16 @@ stage_path="v3_00"
 stage=$stage_path"_"
 
 source $simpath/includes/check_show_params.sh
+tVersion=$version
 
 source $simpath/includes/_do_first.sh
+if ! [[ -z "$tVersion" ]]; then
+    echo "tVersion is not empty"
+    presentAs=$tVersion
+else
+    echo "tVersion is empty"
+    presentAs=$version
+fi
 
 if [ -z "${logger_param}" ]; then
     logger_param=$serverIPName":"$loggerPort"/"$presentAs"/log"
@@ -28,7 +36,7 @@ fi
 
 NAME="LV"$(date +%d%m%Y%H%M%S%N)
 echo "Running logger in container."
-echo "  Container is "$package""$stage"log_viewer"
+echo "  Container is "$package""$version"_log_viewer"
 echo "  Logger is ${logger_param}"
 echo 
 docker run -it \

@@ -8,13 +8,16 @@ number_expression='^[0-9]+$'
 save_param=''
 let error_occurred=0
 
-usage() { echo "Usage: $0 [-p >1023] [-l http://server:port/ver/log] [-n service-name] [-h]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-v v9_99] [-p >1023] [-l http://server:port/ver/log] [-n service-name] [-h]" 1>&2; exit 1; }
 
-while getopts "hn:l:p:" param; do
+while getopts "hn:l:p:v:" param; do
     case "$param" in
         l) logger_param=$OPTARG
            ;;
         n) name_param=$OPTARG
+           ;;
+        v) echo "Version set to "$OPTARG
+           version=$OPTARG
            ;;
         h) usage
            ;;

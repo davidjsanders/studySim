@@ -79,6 +79,16 @@ config_logging $phonePort "Phone"                    # Phone
 echo ""
 echo "Logging configured."
 echo ""
+echo ""
+echo ${underline}"Summary of services"${normal}
+echo "Central logger:       "$serverIPName":"$loggerPort"/"$presentAs
+echo "Notification service: "$serverIPName":"$notesvcPort"/"$presentAs
+echo "Bluetooth service:    "$serverIPName":"$bluePort"/"$presentAs
+echo "Location service:     "$serverIPName":"$locPort"/"$presentAs
+echo "Monitor App service:  "$serverIPName":"$monitorPort"/"$presentAs
+echo "Phone context engine: "$serverIPName":"$contextPort"/"$presentAs
+echo "Jing's phone:         "$serverIPName":"$phonePort"/"$presentAs
+echo
 
 set +e
 stop_message "${sim_heading}"
