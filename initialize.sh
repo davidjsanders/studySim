@@ -130,5 +130,7 @@ cat /tmp/docker-download.log | grep "Error\|Status"
 
 rm /tmp/docker-download.log
 
+echo
+
 stop_message "${sim_heading} $version"
 
