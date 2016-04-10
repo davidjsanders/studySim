@@ -128,5 +128,7 @@ pre_test $stage_count "Pull down v1_00 Presence"
 docker pull $package"v1_00_presence" > /tmp/docker-download.log
 cat /tmp/docker-download.log | grep "Error"
 
+rm /tmp/docker-download.log
+
 stop_message "${sim_heading} $version"
 
