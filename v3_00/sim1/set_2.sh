@@ -35,6 +35,38 @@ set +e
 clear
 start_message "${sim_heading}"
 
+# Starting Jing's phone screen
+let test_id=test_id+1
+pre_test $test_id "Sarting Jing's phone screen."
+start_phone Jing
+
+let test_id=test_id+1
+sender='"sender":"SIM-ENGINE"'
+logtype='"log-type":"normal"'
+message='"message":"Starting phone screen: Jing"'
+data='{'$genKey', '$logtype', '$sender', '$message'}'
+do_post "${data}" \
+         $loggerPort \
+         "/"$presentAs"/log" \
+         "Log phone screen start for Jing" \
+         $test_id
+
+# Bob sits with Jing and can see the phone screen
+let test_id=test_id+1
+pre_test $test_id "Bob sits with Jing and can see the phone screen."
+start_phone Bob
+
+let test_id=test_id+1
+sender='"sender":"SIM-ENGINE"'
+logtype='"log-type":"normal"'
+message='"message":"Starting phone screen: Bob"'
+data='{'$genKey', '$logtype', '$sender', '$message'}'
+do_post "${data}" \
+         $loggerPort \
+         "/"$presentAs"/log" \
+         "Log phone screen start for Bob" \
+         $test_id
+
 # Get lock status of the phone
 let test_id=test_id+1
 do_get "" \
@@ -51,6 +83,16 @@ do_put "${data}" \
        "/"$presentAs"/config/unlock" \
        "Unlock the phone" \
        $test_id
+
+# Pait the phone to Bluetooth
+let test_id=test_id+1
+bluetooth='"bluetooth":"'$serverIPName':'$bluePort'/'$presentAs'"'
+data='{'$genKey', '$bluetooth'}'
+do_post "${data}" \
+         $phonePort \
+         "/"$presentAs"/config/pair" \
+         "Pair the phone to Bluetooth" \
+         $test_id
 
 # Send an SMS Message to the phone
 let test_id=test_id+1
@@ -106,7 +148,7 @@ do_post "${data}" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
-# Lock the phone
+Lock the phone
 let test_id=test_id+1
 data=""
 do_post "${data}" \
@@ -187,6 +229,17 @@ let test_id=test_id+1
 pre_test $test_id "Bob leaves and can no longer see the phone screen."
 stop_phone Bob
 
+let test_id=test_id+1
+sender='"sender":"SIM-ENGINE"'
+logtype='"log-type":"normal"'
+message='"message":"Phone screen Bob has been stopped."'
+data='{'$genKey', '$logtype', '$sender', '$message'}'
+do_post "${data}" \
+         $loggerPort \
+         "/"$presentAs"/log" \
+         "Log phone screen stop for Bob" \
+         $test_id
+
 # Pause for 5 seconds to let the notification be detected
 let test_id=test_id+1
 pre_test $test_id "Sleeping for 5 seconds to persist notifications."
@@ -212,6 +265,22 @@ do_delete "${data}" \
            $test_id
 
 
+# Stopping Jing's phone screen
+let test_id=test_id+1
+pre_test $test_id "Stopping Jing's phone screen."
+stop_phone Jing
+
+let test_id=test_id+1
+sender='"sender":"SIM-ENGINE"'
+logtype='"log-type":"normal"'
+message='"message":"Phone screen Jing has been stopped."'
+data='{'$genKey', '$logtype', '$sender', '$message'}'
+do_post "${data}" \
+         $loggerPort \
+         "/"$presentAs"/log" \
+         "Log phone screen stop for Jing" \
+         $test_id
+
 # Get the phone's screen
 let test_id=test_id+1
 screen_filename="screen-"$(date +%d-%m-%Y-%H%M%S)".txt"
@@ -222,8 +291,15 @@ echo
 # Get the central log file
 let test_id=test_id+1
 log_filename="log-"$(date +%d-%m-%Y-%H%M%S)".csv"
-pre_test $test_id "Downloading central log file (csv) to ${screen_filename}"
+pre_test $test_id "Downloading central log file (csv) to ${log_filename}"
 wget $serverIPName:$loggerPort/$presentAs/logfile -O "${log_filename}"
+echo
+
+# Get the Bluetooth default audio file
+let test_id=test_id+1
+audio_filename="audio-"$(date +%d-%m-%Y-%H%M%S)".txt"
+pre_test $test_id "Downloading Bluetooth default audio file to ${audio_filename}"
+wget $serverIPName:$bluePort/$presentAs/config/audio/$serverName"_"$phonePort -O "${audio_filename}"
 echo
 
 # End simulation

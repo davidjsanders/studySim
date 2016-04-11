@@ -56,15 +56,6 @@ sleep 2
 echo "done."
 
 echo ""
-echo "${underline}Starting phone screens${normal}"
-echo ""
-# Setup Jing to be able to see the phone
-start_phone Jing
-
-# Setup Bob to be able to see the phone
-start_phone Bob
-
-echo ""
 echo "${underline}Configure logging.${normal}"
 echo ""
 config_logging $bluePort "Bluetooth"                 # Bluetooth
@@ -75,6 +66,14 @@ config_logging $phonePort "Phone"                    # Phone
 echo ""
 echo "Logging configured."
 echo ""
+echo ${underline}"Summary of services"${normal}
+echo "Central logger:       "$serverIPName":"$loggerPort"/"$presentAs
+echo "Notification service: "$serverIPName":"$notesvcPort"/"$presentAs
+echo "Bluetooth service:    "$serverIPName":"$bluePort"/"$presentAs
+echo "Location service:     "$serverIPName":"$locPort"/"$presentAs
+echo "Monitor App service:  "$serverIPName":"$monitorPort"/"$presentAs
+echo "Phone:                "$serverIPName":"$phonePort"/"$presentAs
+echo
 
 set +e
 stop_message "${sim_heading}"
