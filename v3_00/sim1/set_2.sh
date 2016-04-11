@@ -148,7 +148,7 @@ do_post "${data}" \
         "Configure ManHunt as a monitored application" \
         $test_id
 
-Lock the phone
+# Lock the phone
 let test_id=test_id+1
 data=""
 do_post "${data}" \
@@ -189,7 +189,7 @@ let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
 sender='"sender":"SMS Service"'
 action='"action":"Read Text"'
-message='"message":"Can you pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
+message='"message":"Can you profanity pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
 data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
          $notesvcPort \
