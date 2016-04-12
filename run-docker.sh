@@ -1,6 +1,7 @@
 #!/bin/bash
 persist_dir=''
-container_name=$(date +%d%m%Y%H%M%S)""
+container_name=''
+redis_port=''
 save_param=''
 server_name='-e serverName=localhost'
 port='5000'
@@ -11,12 +12,13 @@ run_param='NONE'
 name_param='NONE'
 daemon_param='-it '
 old_run_param='-it dsanderscan/mscit_'$version'_phone'
+quiet_mode='V'
 #
 # Usage instructions
 #
 usage()
 {
-    echo "Usage: $0 -c name -n Name [-p >1023] [-s /absolute/path] [-n service-name] [-h]" 1>&2
+    echo "Usage: $0 -c name -n Name [-r] [-q] [-p >1023] [-s /absolute/path] [-n service-name] [-h]" 1>&2
     echo
     echo "Required"
     echo "  -c name      The container name, e.g. context"
@@ -24,6 +26,9 @@ usage()
     echo
     echo "Optional"
     echo "  -d           Run the container as a daemon - default is interactive"
+    echo "  -q           Quiet mode - no output"
+    echo "  -r           Randomize container name"
+    echo "  -R           Redis port to redirect"
     echo "  -p [number]  The port number to use. Must be higher than 1023"
     echo "  -s [path]    The path to persist the data volume to."
     echo "  -z [string]  The server name the service should use for its url"
@@ -33,18 +38,22 @@ usage()
     exit 1; 
 }
 
-while getopts "s:hp:n:v:c:dz:" param; do
+while getopts "qs:hp:n:v:c:dz:R:" param; do
     case "$param" in
         c) run_param=$OPTARG
            ;;
+        r) container_name="_"$(date +%d%m%Y%H%M%S)""
+           ;;
+        R) redis_port="-p "$OPTARG":6379"
+           ;;
         n) name_param=$OPTARG
-           check_case=$(echo ${name_param} | grep [A-Z])
-           if [[ -z $check_case ]]; then
-               echo "Error: Name must begin with a capital letter."
-               let error_occurred=1
-               break
-           fi
-           lName=$(echo $name_param | tr [A-Z] [a-z])
+#           check_case=$(echo ${name_param} | grep [A-Z])
+#           if [[ -z $check_case ]]; then
+#               echo "Error: Name must begin with a capital letter."
+#               let error_occurred=1
+#               break
+#           fi
+#           lName=$(echo $name_param | tr [A-Z] [a-z])
            ;;
         d) daemon_param="-d "
            ;;
@@ -77,6 +86,8 @@ while getopts "s:hp:n:v:c:dz:" param; do
            ;;
         h) usage
            ;;
+        q) quiet_mode='Q'
+           ;;
         *) not_allowed="invalid option: -"$OPTARG
            let error_occurred=1
            break
@@ -89,31 +100,43 @@ if [ "$error_occurred" == "1" ]; then
     usage
 fi
 if [[ "$run_param" == "NONE" ]]; then
-    echo "The container name must be specified with -c"
+    echo "The container image must be specified with -c"
+    echo
+    usage
+fi
+if [[ "$name_param" == "NONE" ]]; then
+    echo "The container name must be specified with -n"
     echo
     usage
 fi
 if ! [[ -z '${save_param}' ]]; then
-    echo "Persisting with option: "$save_param
+    if [[ "$quiet_param" == "V" ]]; then
+        echo "Persisting with option: "$save_param
+    fi
 fi
 
 docker run \
-    -p $port:$port \
-    --name $lName"_"$container_name \
+    --name $name_param""$container_name \
+    -p $port:$port $redis_port \
     -e hostIP="`ifconfig eth0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'`" \
     -e TZ=`date +%Z` \
+    --net=isolated_nw \
     ${port_param} \
     ${save_param} \
     ${server_name} \
     ${version_param} \
     ${daemon_param} ${run_param}
 if [ "$daemon_param" == "-it " ]; then
-    echo -n "Stopping contianer: "$lName"_"$container_name" = "
-    docker stop $lName"_"$container_name
-    echo -n "Removing contianer: "$lName"_"$container_name" = "
-    docker rm $lName"_"$container_name
+    if [[ "$quiet_mode" == "V" ]]; then
+        echo -n "Stopping contianer: "$lName"_"$container_name" = "
+        docker stop $lName"_"$container_name
+        echo -n "Removing contianer: "$lName"_"$container_name" = "
+        docker rm $lName"_"$container_name
+    fi
 else
-    echo "Stop the contianer when done by issuing: docker stop "$lName"_"$container_name
-    echo "Then remove the contianer: docker rm "$lName"_"$container_name
+    if [[ "$quiet_mode" == "V" ]]; then
+        echo "Stop the contianer when done by issuing: docker stop "$lName"_"$container_name
+        echo "Then remove the contianer: docker rm "$lName"_"$container_name
+    fi
 fi
 

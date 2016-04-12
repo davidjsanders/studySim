@@ -8,9 +8,9 @@ number_expression='^[0-9]+$'
 save_param=''
 let error_occurred=0
 
-usage() { echo "Usage: $0 [-p >1023] [-s] [-h]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-v v9_99] [-p >1023] [-s] [-h]" 1>&2; exit 1; }
 
-while getopts ":shp:" param; do
+while getopts ":shp:v:" param; do
     case "$param" in
         s) save_param="PERSIST"
            ;;
@@ -26,6 +26,9 @@ while getopts ":shp:" param; do
                let error_occurred=1
                break
            fi
+           ;;
+        v) echo "Version set to "$OPTARG
+           version=$OPTARG
            ;;
         h) usage
            ;;
