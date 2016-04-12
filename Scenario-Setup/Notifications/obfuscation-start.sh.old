@@ -16,6 +16,8 @@ source $simpath/includes/check_params.sh
 tVersion=$version
 
 source $simpath/includes/_do_first.sh
+source $simpath/Model-Setup/Notifications/includes/additional_ports.sh
+
 if ! [[ -z "$tVersion" ]]; then
     echo "tVersion is not empty"
     presentAs=$tVersion
@@ -75,7 +77,7 @@ run_docker
 sleep 1
 
 # Phone 1
-cv="v3_01"
+cv="v3_00"
 cPort=$phonePort
 cModule="phone"
 run_docker $phoneRedisPort
@@ -99,8 +101,8 @@ echo ""
 echo "Configure phone for default apps, data, and settings"
 echo "===================================================="
 echo
-source $simpath/Model-Setup/Notifications/configure-phone.sh
-source $simpath/Model-Setup/Notifications/configure-obfuscation.sh
+source $simpath/Model-Setup/Notifications/includes/configure-phone.sh
+source $simpath/Model-Setup/Notifications/includes/configure-obfuscation.sh
 echo
 echo
 echo "Summary of services"

@@ -48,4 +48,5 @@ if ! [ -z "${ports_param}" ]; then
 else
     start_port=43124
 fi
+tVersion=$version
 

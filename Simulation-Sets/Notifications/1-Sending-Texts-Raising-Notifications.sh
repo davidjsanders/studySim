@@ -19,15 +19,8 @@ if [ "X"$simpath == "X" ]; then
 fi
 
 source $simpath/includes/check_params.sh
-tVersion=$version
-
-source $simpath/includes/_do_first.sh
-if ! [[ -z "$tVersion" ]]; then
-    presentAs=$tVersion
-    version=$tVersion
-else
-    presentAs=$version
-fi
+source $simpath/includes/setup.sh
+source $simpath/includes/set_version.sh
 
 #
 # Simulation 2 Configuration
