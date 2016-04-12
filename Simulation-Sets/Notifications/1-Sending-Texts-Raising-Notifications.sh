@@ -102,6 +102,19 @@ do_post "${data}" \
          "Jing receives an SMS (text) Message." \
          $test_id
 
+# Send an SMS Message to the phone
+let test_id=test_id+1
+recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
+sender='"sender":"SMS Service"'
+action='"action":"Read Text"'
+message='"message":"profanity !!**!! What a day I have had"'
+data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
+do_post "${data}" \
+         $notesvcPort \
+         "/"$presentAs"/notification" \
+         "Jing receives an SMS (text) Message with a profanity." \
+         $test_id
+
 # Unlock the phone
 let test_id=test_id+1
 data='{'$genKey'}'
