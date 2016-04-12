@@ -28,7 +28,7 @@ fi
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation set 1 (with obfuscation) shutdown"
+sim_heading="NOTIFICATIONS: Full Context - Send notifications with full context - Stop"
 
 clear
 set +e
@@ -42,7 +42,7 @@ stop_service $locPort "location_service"
 stop_service $bluePort "bluetooth"
 stop_service $monitorPort "monitor_app"
 stop_service $notesvcPort "notification"
-#stop_service $contextPort "context"
+stop_service $contextPort "context"
 stop_service $loggerPort "logger"
 echo "Services stopped."
 echo ""

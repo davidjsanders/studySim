@@ -28,7 +28,7 @@ fi
 #
 # Simulation 1 Configuration
 #
-sim_heading="Simulation Set 1 - setup"
+sim_heading="NOTIFICATIONS: Obfuscation - Send notifications using Obfuscations - Start"
 
 clear
 set +e
@@ -61,7 +61,7 @@ run_docker
 sleep 1
 
 # Monitor Apps Service
-cv="v3_00"
+cv="v3_01"
 cPort=$monitorPort
 cModule="monitor_app"
 run_docker
@@ -74,16 +74,8 @@ cModule="notification"
 run_docker
 sleep 1
 
-# Context Service
-#run_docker "v4_00" $contextPort "context" "Context" "${save_param}"
-#cv="v4_00"
-#cPort=$contextPort
-#cModule="context"
-#run_docker
-#sleep 1
-
 # Phone 1
-cv="v3_00"
+cv="v3_01"
 cPort=$phonePort
 cModule="phone"
 run_docker $phoneRedisPort
@@ -99,18 +91,25 @@ config_logging $bluePort "Bluetooth"                 # Bluetooth
 config_logging $locPort "Location Service"           # Location Service
 config_logging $monitorPort "Monitor App"            # Monitor App
 config_logging $notesvcPort "Notification Service"
-#config_logging $contextPort  "Context Service"
 config_logging $phonePort "David's Phone"
 echo ""
 echo "Logging configured."
 echo ""
 echo ""
-echo ${underline}"Summary of services"${normal}
+echo "Configure phone for default apps, data, and settings"
+echo "===================================================="
+echo
+source $simpath/Model-Setup/Notifications/configure-phone.sh
+source $simpath/Model-Setup/Notifications/configure-obfuscation.sh
+echo
+echo
+echo "Summary of services"
+echo "==================="
 echo "Central logger:       "$serverIPName":"$loggerPort"/"$presentAs
 echo "Notification service: "$serverIPName":"$notesvcPort"/"$presentAs
-echo "Presence Engine:      "$serverIPName":"$presencePort"/"$presentAs
-echo "Door bell:            "$serverIPName":"$doorbellPort"/"$presentAs
-#echo "Phone context engine: "$serverIPName":"$contextPort"/"$presentAs
+echo "Bluetooth:            "$serverIPName":"$bluePort"/"$presentAs
+echo "Location Service:     "$serverIPName":"$locPort"/"$presentAs
+echo "Monitor App:          "$serverIPName":"$monitorPort"/"$presentAs
 echo "Phone:                "$serverIPName":"$phonePort"/"$presentAs
 echo
 echo
