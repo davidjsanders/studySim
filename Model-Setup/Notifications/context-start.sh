@@ -36,7 +36,6 @@ start_message "${sim_heading}"
 set -e
 
 # Logger
-#run_docker "v3_00" $loggerPort "logger" "Logger" "${save_param}"
 cv="v3_00"
 cPort=$loggerPort
 cModule="logger"
@@ -44,6 +43,20 @@ run_docker
 sleep 2
 
 do_delete '{'$genKey'}' $loggerPort '/'$presentAs'/log' "Clear logs."
+sleep 1
+
+# Context Service
+cv="v4_00"
+cPort=$contextPort
+cModule="context"
+run_docker
+sleep 1
+
+# Presence Service
+cv="v1_00"
+cPort=$presencePort
+cModule="presence"
+run_docker
 sleep 1
 
 # Bluetooth Service
@@ -74,13 +87,6 @@ cModule="notification"
 run_docker
 sleep 1
 
-# Context Service
-cv="v4_00"
-cPort=$contextPort
-cModule="context"
-run_docker
-sleep 1
-
 # Phone 1
 cv="v4_00"
 cPort=$phonePort
@@ -94,22 +100,33 @@ echo "done."
 
 echo ""
 echo "${underline}Configure logging.${normal}"
-config_logging $bluePort "Bluetooth"                 # Bluetooth
-config_logging $locPort "Location Service"           # Location Service
-config_logging $monitorPort "Monitor App"            # Monitor App
+config_logging $bluePort "Bluetooth"
+config_logging $locPort "Location Service"
+config_logging $monitorPort "Monitor App"
 config_logging $notesvcPort "Notification Service"
-config_logging $contextPort  "Context Service"
+config_logging $contextPort "Context Service"
+config_logging $presencePort "Presence Service"
 config_logging $phonePort "David's Phone"
 echo ""
 echo "Logging configured."
 echo ""
 echo ""
-echo ${underline}"Summary of services"${normal}
+echo "Configure phone for default apps, data, and settings"
+echo "===================================================="
+echo
+source $simpath/Model-Setup/Notifications/configure-phone.sh
+source $simpath/Model-Setup/Notifications/configure-obfuscation.sh
+source $simpath/Model-Setup/Notifications/configure-context.sh
+echo
+echo
+echo "Summary of services"
+echo "==================="
 echo "Central logger:       "$serverIPName":"$loggerPort"/"$presentAs
 echo "Notification service: "$serverIPName":"$notesvcPort"/"$presentAs
-echo "Presence Engine:      "$serverIPName":"$presencePort"/"$presentAs
-echo "Door bell:            "$serverIPName":"$doorbellPort"/"$presentAs
-echo "Phone context engine: "$serverIPName":"$contextPort"/"$presentAs
+echo "Bluetooth:            "$serverIPName":"$bluePort"/"$presentAs
+echo "Location Service:     "$serverIPName":"$locPort"/"$presentAs
+echo "Monitor App:          "$serverIPName":"$monitorPort"/"$presentAs
+echo "Context Engine:       "$serverIPName":"$contextPort"/"$presentAs
 echo "Phone:                "$serverIPName":"$phonePort"/"$presentAs
 echo
 echo
