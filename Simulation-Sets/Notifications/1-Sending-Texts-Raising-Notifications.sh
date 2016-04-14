@@ -1,10 +1,29 @@
 #!/bin/bash
-#References
-# http://stackoverflow.com/questions/2924697/how-does-one-output-bold-text-in-bash
-# http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html
+#    Simulation Set: Sending text raising notifications
+#    ------------------------------------------------------------------------
+#    Author:      David J. Sanders
+#    Student No:  H00035340
+#    Date:        12 Apr 2016
+#    ------------------------------------------------------------------------
+#    Overivew:   Jing is using a smart phone to receive notifications. He is
+#                travelling on a train with his friend Bob. At certain points in
+#                the train journey, Bob can see Jing's phone. The objective of 
+#                the simulation is to understand if Bob sees any sensitive or 
+#                confidential notifications during the journey.
 #
-#set -o verbose
-
+#                Bob's view of the phone is saved in Bob.txt
+#                Jing's view of the phone is saved in Jing.txt\
+#                Logs and the actual phone screen are saved at the end of the
+#                simulation set. 
+#
+#    Revision History
+#    --------------------------------------------------------------------------
+#    Date         | By             | Reason
+#    --------------------------------------------------------------------------
+#    12 Apr 2016  | D Sanders      | Revised structure for simulations.
+#
+#
+#================= Scenario Init - Validate $simpath exists ====================
 #
 # Simulation Setup
 #
