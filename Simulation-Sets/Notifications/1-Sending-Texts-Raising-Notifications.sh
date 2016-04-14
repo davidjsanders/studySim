@@ -40,13 +40,13 @@ fi
 source $simpath/includes/check_params.sh
 source $simpath/includes/setup.sh
 source $simpath/includes/set_version.sh
-
+source $simpath/includes/set_outputs.sh
 #
 # Simulation 2 Configuration
 #
 sim_heading="Simulation 1: Sending texts and raising notifications."
 over_view="Jing is using a smart phone to receive notifications. He is travelling "
-over_view=$over_view"on a train with his friend Bob. At certain points in the train journey, "
+over_view=$over_view"on a train (or car) with his friend Bob. At certain points in the train journey, "
 over_view=$over_view"Bob can see Jing's phone. The objective of the simulation is to "
 over_view=$over_view"understand if Bob sees any sensitive or confidential notifications "
 over_view=$over_view"during the journey.\n\n"
@@ -181,7 +181,7 @@ let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
 sender='"sender":"SMS Service"'
 action='"action":"Read Text"'
-message='"message":"Can you profanity pick me up at Starbucks, please? Its the one at Clair and Gordon. Thanks John."'
+message='"message":"Can you profanity pick me up at Starbucks, please? Clair and Gordon."'
 data='{'$genKey', '$recipient', '$sender', '$action', '$message'}'
 do_post "${data}" \
          $notesvcPort \
@@ -194,6 +194,7 @@ let test_id=test_id+1
 pre_test $test_id "Bob says bye to Jing and leaves the train at his stop. Bob can no longer see Jing's phone screen."
 stop_phone Bob
 
+# Log Bob has left Jing
 let test_id=test_id+1
 sender='"sender":"SIM-ENGINE"'
 logtype='"log-type":"normal"'
@@ -211,13 +212,13 @@ pre_test $test_id "Sleeping for 5 seconds to persist notifications."
 sleep 5
 echo
 
-# Unlock the phone
+# Unlock the phone - will cause stored notifications to be processed.
 let test_id=test_id+1
 data='{'$genKey'}'
 do_put "${data}" \
        $phonePort \
        "/"$presentAs"/config/unlock" \
-       "Jing unlocks the phone to use it" \
+       "Jing unlocks the phone to use it - stored notifications will be shown." \
        $test_id
 
 # Pause for 10 seconds to allow any notifications to be detected.
@@ -231,6 +232,7 @@ let test_id=test_id+1
 pre_test $test_id "Jing arrives at his destination and is going into a meeting, so switches his phone off."
 stop_phone Jing
 
+# Write to the log that Jing's phone has stopped
 let test_id=test_id+1
 sender='"sender":"SIM-ENGINE"'
 logtype='"log-type":"normal"'
@@ -242,19 +244,8 @@ do_post "${data}" \
          "Log phone screen stop for Jing" \
          $test_id
 
-# Get the phone's screen
-let test_id=test_id+1
-screen_filename="screen-"$(date +%d-%m-%Y-%H%M%S)".txt"
-pre_test $test_id "Downloading phone main screen saving to ${screen_filename}"
-wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}"
-echo
-
-# Get the central log file
-let test_id=test_id+1
-log_filename="log-"$(date +%d-%m-%Y-%H%M%S)".csv"
-pre_test $test_id "Downloading central log file (csv) to ${log_filename}"
-wget $serverIPName:$loggerPort/$presentAs/logfile -O "${log_filename}"
-echo
+# Get the standard outputs
+source $simpath/includes/get_standard_outputs.sh
 
 # End simulation
 let test_id=test_id+1

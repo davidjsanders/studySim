@@ -19,7 +19,7 @@ function start_phone {
           --name $presentAs"_phone_screen_"${1}"_"$redis_to_use \
           --net=isolated_nw \
           -t $package$version_to_use"_phone_screen" \
-          /Phone_Screen/Phone_Screen.py --server "$serverIP" --port $redis_to_use > "${1}.txt" &
+          /Phone_Screen/Phone_Screen.py --server "$serverIP" --port $redis_to_use > "$output_folder${1}.txt" &
         sleep 2
         echo "started."
     else

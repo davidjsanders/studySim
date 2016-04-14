@@ -13,16 +13,9 @@ stage_path="v3_00"
 stage=$stage_path"_"
 
 source $simpath/includes/check_show_params.sh
-tVersion=$version
+source $simpath/includes/setup.sh
+source $simpath/includes/set_version.sh
 
-source $simpath/includes/_do_first.sh
-if ! [[ -z "$tVersion" ]]; then
-    echo "tVersion is not empty"
-    presentAs=$tVersion
-else
-    echo "tVersion is empty"
-    presentAs=$version
-fi
 
 if [ -z "${logger_param}" ]; then
     logger_param=$serverIPName":"$loggerPort"/"$presentAs"/log"
