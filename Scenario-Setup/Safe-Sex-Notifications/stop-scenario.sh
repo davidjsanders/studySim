@@ -41,7 +41,7 @@ fi
 
 source $simpath/includes/check_params.sh
 source $simpath/includes/setup.sh
-source $simpath/Scenario-Setup/Notifications/includes/additional_ports.sh
+source $simpath/Scenario-Setup/Safe-Sex-Notifications/includes/additional_ports.sh
 source $simpath/includes/set_version.sh
 
 #version="v4_00"
@@ -59,6 +59,9 @@ set -e
 echo "Stopping services."
 echo ""
 stop_service $phonePort "phone"
+stop_service $phone2Port "phone"
+stop_service $phone3Port "phone"
+stop_service $phone4Port "phone"
 stop_service $contextPort "context"
 stop_service $presencePort "presence"
 stop_service $locPort "location_service"

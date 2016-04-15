@@ -5,16 +5,16 @@
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:   Jing is using a smart phone to receive notifications. He is
-#                travelling on a train with his friend Bob. At certain points in
-#                the train journey, Bob can see Jing's phone. The objective of 
-#                the simulation is to understand if Bob sees any sensitive or 
-#                confidential notifications during the journey.
+#    Overivew:    Bob and Sue are travelling in their car with their Daughter 
+#                 Sam. Their phones are paired to the car's Bluetooth system. At
+#                 one point in their journey, they pick up Sue's work colleague 
+#                 Andrew who's car is in the shop and they are giving a ride to.
+#                 Bob is taking medication for a cardiac condition and his
+#                 smart phone issues notifications to remind him to take his
+#                 meds at regular occassions.
 #
-#                Bob's view of the phone is saved in Bob.txt
-#                Jing's view of the phone is saved in Jing.txt\
-#                Logs and the actual phone screen are saved at the end of the
-#                simulation set. 
+#                 The objective of the simulation is to measure how notifications
+#                 can change based on context.
 #
 #    Revision History
 #    --------------------------------------------------------------------------
@@ -45,15 +45,21 @@ source $simpath/includes/set_outputs.sh
 # Simulation 2 Configuration
 #
 sim_heading="Simulation 1: Sending texts and raising notifications."
-over_view="Jing is using a smart phone to receive notifications. He is travelling "
-over_view=$over_view"on a train (or car) with his friend Bob. At certain points in the train journey, "
-over_view=$over_view"Bob can see Jing's phone. The objective of the simulation is to "
-over_view=$over_view"understand if Bob sees any sensitive or confidential notifications "
-over_view=$over_view"during the journey.\n\n"
-over_view=$over_view"Bob's view of the phone is saved in Bob.txt\n"
-over_view=$over_view"Jing's view of the phone is saved in Jing.txt\n"
-over_view=$over_view"Logs and the actual phone screen are saved at the end of the "
-over_view=$over_view"simulation"
+over_view="Bob and Sue are travelling in their car with their Daughter "
+over_view=$over_view"Sam. Their phones are paired to the car's Bluetooth system. At "
+over_view=$over_view"one point in their journey, they pick up Sue's work colleague "
+over_view=$over_view"Andrew who's car is in the shop and they are giving a ride to. "
+over_view=$over_view"Bob is taking medication for a cardiac condition and his "
+over_view=$over_view"smart phone issues notifications to remind him to take his "
+over_view=$over_view"meds at regular occassions. "
+over_view=$over_view"Andrew's phone is not paired to the car, but it is detected "
+over_view=$over_view"by the Bluetooth system, which broadcasts its pairing info.\n\n"
+over_view=$over_view"As Bob is driving, the simulation focuses on the Bluetooth "
+over_view=$over_view"audio output NOT screens.\n\n"
+over_view=$over_view"The objective of the simulation is to measure how notifications "
+over_view=$over_view"can change based on context. "
+over_view=$over_view"Logs, actual phone screens, and Bluetooth audio are saved "
+over_view=$over_view"at the end of the simulation."
 
 echo
 echo "Simulation Overview"

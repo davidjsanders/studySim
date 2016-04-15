@@ -1,14 +1,15 @@
-#    Scenario: Additional 1 - Configure hot spots
+#    Scenario: Additional 1 - Configure Bluetooth
 #    ------------------------------------------------------------------------
 #    Author:      David J. Sanders
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:    A2-configure-hot-spots.sh defines hot spots that the location
-#                 service will report as known hot spots for drug and STI rates.
-#                 The monitor app will get the location from the phone, pass it
-#                 to the location service and that will decide if it is a hot
-#                 spot or not.
+#    Overivew:    A1-configure-Bluetooth.sh pairs the registered first
+#                 phone with the Bluetooth service. All notifications received
+#                 are 'read' aloud by the service (the actually go into a text
+#                 file called hostname_phonePort). The Bluetooth audio is 
+#                 retrieved by asking the Bluetooth service to deliver the 
+#                 default audio file by the config interface.
 #
 #                 NOTE: No model changes are made here.
 #                 DEPENDENCY: A previous scenario MUST have been setup first.
@@ -51,44 +52,7 @@ do_initialize() {
 # do_settings: Set data, apps, and settings for the phone and conencted devices.
 #
 do_settings() {
-    # Define a hot spot in the Monitor App
-    let test_id=test_id+1
-    loc_lx='"lower-x":200'
-    loc_ly='"lower-y":200'
-    loc_ux='"upper-x":400'
-    loc_uy='"upper-y":400'
-    description='"description":"The downtown core; known for high STI rates and drug use"'
-    data='{'$genKey', '$loc_lx', '$loc_ly', '$loc_ux', '$loc_uy', '$description'}'
-    do_post "${data}" \
-            $locPort \
-            "/"$presentAs"/config/hotspot/downtown" \
-            "The downtown core is configured as a hot spot ($loc_lx,$loc_ly) - ($loc_ux, $loc_uy)" \
-            $test_id
-
-    # Define a second hot spot in the Monitor App
-    let test_id=test_id+1
-    loc_lx='"lower-x":500'
-    loc_ly='"lower-y":500'
-    loc_ux='"upper-x":600'
-    loc_uy='"upper-y":600'
-    description='"description":"The midtown core; known for high STI rates and drug use"'
-    data='{'$genKey', '$loc_lx', '$loc_ly', '$loc_ux', '$loc_uy', '$description'}'
-    do_post "${data}" \
-            $locPort \
-            "/"$presentAs"/config/hotspot/midtown" \
-            "The midtown core is configured as a hot spot ($loc_lx,$loc_ly) - ($loc_ux, $loc_uy)" \
-            $test_id
-
-    # Define the phone's starting location
-    let test_id=test_id+1
-    loc_x='"x":120'
-    loc_y='"y":300'
-    data='{'$genKey', '$loc_x', '$loc_y'}'
-    do_put "${data}" \
-           $phonePort \
-           "/"$presentAs"/config/location" \
-           "The phone's location is set to ($loc_x,$loc_y)" \
-           $test_id
+    source $scenario_includes/Bluetooth-settings.sh
 }
 #
 # do_summary: Show the summary of ports for each service used.
@@ -98,8 +62,7 @@ do_summary() {
     echo
     echo "Summary of services"
     echo "==================="
-    echo "The Phone ${serverName}_${phonePort} location has been set."
-    echo "Two hotspots have been defined."
+    echo "Phone ${serverName}_${phonePort} has been paired with ${serverIPName}:${bluePort}/${presentAs}/pair"
 }
 #
 #========================== Scenario Setup - Main Logic ========================

@@ -1,26 +1,25 @@
-#    Scenario: obfuscation-lock
+#    Scenario: context
 #    ------------------------------------------------------------------------
 #    Author:      David J. Sanders
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:    obfuscation-lock-start.sh sets up the Notification scenario to
-#                 be used with obfuscation settings and lock controls. User can  
-#                 mask sensitivie notifications and decide whether their phone
-#                 should show notifications on the lock screen or not (default 
-#                 action) They can also set applications (the monitor app) to
-#                 send user defined notifications.
+#    Overivew:    context-start.sh sets up the Notification scenario to be
+#                 used with the full context engine, the phone's autosense (an
+#                 automatic profanity checker) and control over states of 
+#                 privacy (alone, with friends, etc.).
 #
-#                 Variations from no-context and obfuscation are marked with 
-#                 asterisks (*)
+#                 Variations from no-context are marked with asterisks (*)
 #
 #    Models:
 #    1. dsanderscan/mscit_v3_00_logger - central logging
 #    2. dsanderscan/mscit_v3_00_bluetooth - Bluetooth service
 #    3. dsanderscan/mscit_v3_00_location - Location service
-# *  4. dsanderscan/mscit_v3_01_monitor_app - Monitor App service     *
-#    5. dsanderscan/mscit_v3_00_notification - Notification service
-# *  6. dsanderscan/mscit_v3_01_phone - Phone model                   *
+# *  4. dsanderscan/mscit_v4_00_monitor_app - Monitor App service     *
+# *  5. dsanderscan/mscit_v4_00_notification - Notification service   *
+# *  6. dsanderscan/mscit_v4_00_phone - Phone model                   *
+# *  7. dsanderscan/mscit_v4_00_context - Context engine              *
+# *  8. dsanderscan/mscit_v1_00_presence - Presence engine            *
 #
 #
 #    Revision History
@@ -51,7 +50,7 @@ fi
 #
 do_initialize() {
     sim_heading="NOTIFICATIONS: No Context - Send notifications with no context - Start"
-    scenario_includes=$simpath/Scenario-Setup/Notifications/includes
+    scenario_includes=$simpath/Scenario-Setup/Safe-Sex-Notifications/includes
 }
 #
 # do_start: Define the services that will be started for this Scenario setup
@@ -82,24 +81,36 @@ do_start() {
     sleep 1
 
     # Monitor Apps Service
-    cv="v3_01"
+    cv="v4_00"
     cPort=$monitorPort
     cModule="monitor_app"
     run_docker
     sleep 1
 
     # Notification Service
-    cv="v3_00"
+    cv="v4_00"
     cPort=$notesvcPort
     cModule="notification"
     run_docker
     sleep 1
 
     # Phone 1
-    cv="v3_01"
+    cv="v4_00"
     cPort=$phonePort
     cModule="phone"
     run_docker $phoneRedisPort
+
+    # Context
+    cv="v4_00"
+    cPort=$contextPort
+    cModule="context"
+    run_docker
+
+    # Presence
+    cv="v1_00"
+    cPort=$presencePort
+    cModule="presence"
+    run_docker
 
     echo ""
     echo -n "Pausing to let services complete start-up: "
@@ -120,6 +131,8 @@ do_logging() {
     config_logging $monitorPort "Monitor App"
     config_logging $notesvcPort "Notification Service"
     config_logging $phonePort "Phone"
+    config_logging $contextPort "Context"
+    config_logging $presencePort "Presence"
     echo ""
     echo "Done."
     echo ""
@@ -131,6 +144,7 @@ do_logging() {
 do_settings() {
     source $scenario_includes/core-settings.sh
     source $scenario_includes/configure-obfuscation.sh
+    source $scenario_includes/configure-context.sh
 }
 #
 # do_summary: Show the summary of ports for each service used.
@@ -147,6 +161,8 @@ do_summary() {
     echo "Monitor App:          "$serverIPName":"$monitorPort"/"$presentAs
     echo "Phone:                "$serverIPName":"$phonePort"/"$presentAs
     echo "Phone Redis:          Port "$phoneRedisPort" on "$serverIP
+    echo "Context Engine:       "$serverIPName":"$contextPort"/"$presentAs
+    echo "Presence Engine:      "$serverIPName":"$presencePort"/"$presentAs
     echo
     echo
 }

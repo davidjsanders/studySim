@@ -1,21 +1,26 @@
-#    Scenario: no-context
+#    Scenario: obfuscation-lock
 #    ------------------------------------------------------------------------
 #    Author:      David J. Sanders
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:    no-context-start.sh sets up the Notification scenario to be
-#                 used exactly as the notification app - all notifications
-#                 sensitive, or not, are shown whether the phone is locked or
-#                 unlocked.
+#    Overivew:    obfuscation-lock-start.sh sets up the Notification scenario to
+#                 be used with obfuscation settings and lock controls. User can  
+#                 mask sensitivie notifications and decide whether their phone
+#                 should show notifications on the lock screen or not (default 
+#                 action) They can also set applications (the monitor app) to
+#                 send user defined notifications.
+#
+#                 Variations from no-context and obfuscation are marked with 
+#                 asterisks (*)
 #
 #    Models:
 #    1. dsanderscan/mscit_v3_00_logger - central logging
 #    2. dsanderscan/mscit_v3_00_bluetooth - Bluetooth service
 #    3. dsanderscan/mscit_v3_00_location - Location service
-#    4. dsanderscan/mscit_v3_00_monitor_app - Monitor App service
+# *  4. dsanderscan/mscit_v3_01_monitor_app - Monitor App service     *
 #    5. dsanderscan/mscit_v3_00_notification - Notification service
-#    6. dsanderscan/mscit_v3_00_phone - Phone model
+# *  6. dsanderscan/mscit_v3_01_phone - Phone model                   *
 #
 #
 #    Revision History
@@ -46,7 +51,7 @@ fi
 #
 do_initialize() {
     sim_heading="NOTIFICATIONS: No Context - Send notifications with no context - Start"
-    scenario_includes=$simpath/Scenario-Setup/Notifications/includes
+    scenario_includes=$simpath/Scenario-Setup/Safe-Sex-Notifications/includes
 }
 #
 # do_start: Define the services that will be started for this Scenario setup
@@ -77,7 +82,7 @@ do_start() {
     sleep 1
 
     # Monitor Apps Service
-    cv="v3_00"
+    cv="v3_01"
     cPort=$monitorPort
     cModule="monitor_app"
     run_docker
@@ -91,7 +96,7 @@ do_start() {
     sleep 1
 
     # Phone 1
-    cv="v3_00"
+    cv="v3_01"
     cPort=$phonePort
     cModule="phone"
     run_docker $phoneRedisPort
@@ -125,6 +130,7 @@ do_logging() {
 #
 do_settings() {
     source $scenario_includes/core-settings.sh
+    source $scenario_includes/configure-obfuscation.sh
 }
 #
 # do_summary: Show the summary of ports for each service used.

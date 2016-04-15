@@ -1,25 +1,21 @@
-#    Scenario: context
+#    Scenario: no-context
 #    ------------------------------------------------------------------------
 #    Author:      David J. Sanders
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:    context-start.sh sets up the Notification scenario to be
-#                 used with the full context engine, the phone's autosense (an
-#                 automatic profanity checker) and control over states of 
-#                 privacy (alone, with friends, etc.).
-#
-#                 Variations from no-context are marked with asterisks (*)
+#    Overivew:    no-context-start.sh sets up two phones for Bob and Sue. They
+#                 are travelling in their car with their Daughter Sam. Their
+#                 phones are paired to the car's Bluetooth system. At one point
+#                 in their journey, they pick up Sue's work colleague Andrew
+#                 who they are giving a ride to.
 #
 #    Models:
 #    1. dsanderscan/mscit_v3_00_logger - central logging
 #    2. dsanderscan/mscit_v3_00_bluetooth - Bluetooth service
 #    3. dsanderscan/mscit_v3_00_location - Location service
-# *  4. dsanderscan/mscit_v4_00_monitor_app - Monitor App service     *
-# *  5. dsanderscan/mscit_v4_00_notification - Notification service   *
-# *  6. dsanderscan/mscit_v4_00_phone - Phone model                   *
-# *  7. dsanderscan/mscit_v4_00_context - Context engine              *
-# *  8. dsanderscan/mscit_v1_00_presence - Presence engine            *
+#    4. dsanderscan/mscit_v3_00_notification - Notification service
+#    5. dsanderscan/mscit_v3_00_phone - Phone model
 #
 #
 #    Revision History
@@ -50,7 +46,7 @@ fi
 #
 do_initialize() {
     sim_heading="NOTIFICATIONS: No Context - Send notifications with no context - Start"
-    scenario_includes=$simpath/Scenario-Setup/Notifications/includes
+    scenario_includes=$simpath/Scenario-Setup/In-Car-Notifications/includes
 }
 #
 # do_start: Define the services that will be started for this Scenario setup
@@ -80,37 +76,30 @@ do_start() {
     run_docker
     sleep 1
 
-    # Monitor Apps Service
-    cv="v4_00"
-    cPort=$monitorPort
-    cModule="monitor_app"
-    run_docker
-    sleep 1
-
     # Notification Service
-    cv="v4_00"
+    cv="v3_00"
     cPort=$notesvcPort
     cModule="notification"
     run_docker
     sleep 1
 
     # Phone 1
-    cv="v4_00"
+    cv="v3_00"
     cPort=$phonePort
     cModule="phone"
     run_docker $phoneRedisPort
 
-    # Context
-    cv="v4_00"
-    cPort=$contextPort
-    cModule="context"
-    run_docker
+    # Phone 2
+    cv="v3_00"
+    cPort=$phone2Port
+    cModule="phone"
+    run_docker $phone2RedisPort
 
-    # Presence
-    cv="v1_00"
-    cPort=$presencePort
-    cModule="presence"
-    run_docker
+    # Phone 3
+    cv="v3_00"
+    cPort=$phone3Port
+    cModule="phone"
+    run_docker $phone3RedisPort
 
     echo ""
     echo -n "Pausing to let services complete start-up: "
@@ -128,11 +117,10 @@ do_logging() {
     echo
     config_logging $bluePort "Bluetooth"
     config_logging $locPort "Location Service"
-    config_logging $monitorPort "Monitor App"
     config_logging $notesvcPort "Notification Service"
     config_logging $phonePort "Phone"
-    config_logging $contextPort "Context"
-    config_logging $presencePort "Presence"
+    config_logging $phone2Port "Phone 2"
+    config_logging $phone3Port "Phone 3"
     echo ""
     echo "Done."
     echo ""
@@ -143,8 +131,6 @@ do_logging() {
 #
 do_settings() {
     source $scenario_includes/core-settings.sh
-    source $scenario_includes/configure-obfuscation.sh
-    source $scenario_includes/configure-context.sh
 }
 #
 # do_summary: Show the summary of ports for each service used.
@@ -158,11 +144,14 @@ do_summary() {
     echo "Notification service: "$serverIPName":"$notesvcPort"/"$presentAs
     echo "Bluetooth:            "$serverIPName":"$bluePort"/"$presentAs
     echo "Location Service:     "$serverIPName":"$locPort"/"$presentAs
-    echo "Monitor App:          "$serverIPName":"$monitorPort"/"$presentAs
     echo "Phone:                "$serverIPName":"$phonePort"/"$presentAs
     echo "Phone Redis:          Port "$phoneRedisPort" on "$serverIP
-    echo "Context Engine:       "$serverIPName":"$contextPort"/"$presentAs
-    echo "Presence Engine:      "$serverIPName":"$presencePort"/"$presentAs
+    echo "Phone 2:              "$serverIPName":"$phone2Port"/"$presentAs
+    echo "Phone 2 Redis:        Port "$phone2RedisPort" on "$serverIP
+    echo "Phone 3:              "$serverIPName":"$phone3Port"/"$presentAs
+    echo "Phone 3 Redis:        Port "$phone3RedisPort" on "$serverIP
+    echo "Phone 4:              "$serverIPName":"$phone4Port"/"$presentAs
+    echo "Phone 4 Redis:        Port "$phone4RedisPort" on "$serverIP
     echo
     echo
 }
