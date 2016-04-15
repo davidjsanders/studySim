@@ -8,9 +8,10 @@ echo
 # Get the Bluetooth audio default file
 let test_id=test_id+1
 audio_filename=$output_folder"audio-"$(date +%d-%m-%Y-%H%M%S)".txt"
+server_IP=${serverIP//\./\_} # Convert dots to underscores
 pre_test $test_id "Downloading central Bluetooth audio file to ${audio_filename}"
-pre_test $test_id $serverIPName:$bluePort/$presentAs/config/audio/$serverName"_"$phonePort
-wget $serverIPName:$bluePort/$presentAs/config/audio/$serverName"_"$phonePort -O "${audio_filename}" || true
+pre_test $test_id $serverIPName:$bluePort/$presentAs/config/audio/$server_IP"_"$phonePort"_"$presentAs
+wget $serverIPName:$bluePort/$presentAs/config/audio/$server_IP"_"$phonePort"_"$presentAs -O "${audio_filename}" || true
 echo
 
 # Get the central log file

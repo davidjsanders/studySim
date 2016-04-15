@@ -42,7 +42,7 @@ fi
 #
 do_initialize() {
     sim_heading="NOTIFICATIONS: Additional Phone - Start"
-    scenario_includes=$simpath/Scenario-Setup/Notifications/includes
+    scenario_includes=$simpath/Scenario-Setup/Safe-Sex-Notifications/includes
 }
 #
 # do_start: Define the services that will be started for this Scenario setup

@@ -46,7 +46,7 @@ fi
 #
 do_initialize() {
     sim_heading="NOTIFICATIONS: Configure Bluetooth - Pair phone"
-    scenario_includes=$simpath/Scenario-Setup/Notifications/includes
+    scenario_includes=$simpath/Scenario-Setup/Safe-Sex-Notifications/includes
 }
 #
 # do_settings: Set data, apps, and settings for the phone and conencted devices.

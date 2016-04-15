@@ -38,7 +38,7 @@ usage()
     exit 1; 
 }
 
-while getopts "qs:hp:n:v:c:dz:R:" param; do
+while getopts "qrs:hp:n:v:c:dz:R:" param; do
     case "$param" in
         c) run_param=$OPTARG
            ;;
@@ -47,13 +47,6 @@ while getopts "qs:hp:n:v:c:dz:R:" param; do
         R) redis_port="-p "$OPTARG":6379"
            ;;
         n) name_param=$OPTARG
-#           check_case=$(echo ${name_param} | grep [A-Z])
-#           if [[ -z $check_case ]]; then
-#               echo "Error: Name must begin with a capital letter."
-#               let error_occurred=1
-#               break
-#           fi
-#           lName=$(echo $name_param | tr [A-Z] [a-z])
            ;;
         d) daemon_param="-d "
            ;;
@@ -128,11 +121,13 @@ docker run \
     ${daemon_param} ${run_param}
 if [ "$daemon_param" == "-it " ]; then
     if [[ "$quiet_mode" == "V" ]]; then
-        echo -n "Stopping contianer: "$lName"_"$container_name" = "
-        docker stop $lName"_"$container_name
-        echo -n "Removing contianer: "$lName"_"$container_name" = "
-        docker rm $lName"_"$container_name
+        echo -n "Stopping contianer: "
     fi
+    docker stop $name_param""$container_name
+    if [[ "$quiet_mode" == "V" ]]; then
+        echo -n "Removing contianer: "
+    fi
+    docker rm $name_param""$container_name
 else
     if [[ "$quiet_mode" == "V" ]]; then
         echo "Stop the contianer when done by issuing: docker stop "$lName"_"$container_name

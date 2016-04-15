@@ -13,7 +13,7 @@
 #
 #    Models:
 #    1. dsanderscan/mscit_v3_00_logger - central logging
-#    2. dsanderscan/mscit_v3_00_bluetooth - Bluetooth service
+#    2. dsanderscan/mscit_v3_01_bluetooth - Bluetooth service
 #    3. dsanderscan/mscit_v3_00_location - Location service
 # *  4. dsanderscan/mscit_v4_00_monitor_app - Monitor App service     *
 # *  5. dsanderscan/mscit_v4_00_notification - Notification service   *
@@ -67,7 +67,7 @@ do_start() {
     sleep 1
 
     # Bluetooth Service
-    cv="v3_00"
+    cv="v3_01"
     cPort=$bluePort
     cModule="bluetooth"
     run_docker
