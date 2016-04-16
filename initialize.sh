@@ -36,6 +36,11 @@ docker pull $package""$version"_bluetooth" > /tmp/docker-download.log
 cat /tmp/docker-download.log | grep "Error\|Status"
 
 let stage_count=stage_count+1
+pre_test $stage_count "Pull down v3_00 location service"
+docker pull $package""$version"_location_service" > /tmp/docker-download.log
+cat /tmp/docker-download.log | grep "Error\|Status"
+
+let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_00 logger"
 docker pull $package""$version"_logger" > /tmp/docker-download.log
 cat /tmp/docker-download.log | grep "Error\|Status"
@@ -48,11 +53,6 @@ cat /tmp/docker-download.log | grep "Error\|Status"
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_00 monitor app"
 docker pull $package""$version"_monitor_app" > /tmp/docker-download.log
-cat /tmp/docker-download.log | grep "Error\|Status"
-
-let stage_count=stage_count+1
-pre_test $stage_count "Pull down v3_00 location service"
-docker pull $package""$version"_location_service" > /tmp/docker-download.log
 cat /tmp/docker-download.log | grep "Error\|Status"
 
 let stage_count=stage_count+1
@@ -78,6 +78,11 @@ stop_message "${sim_heading} $version"
 echo
 start_message "${sim_heading} - Pull down v3_01 containers"
 version="v3_01"
+
+let stage_count=stage_count+1
+pre_test $stage_count "Pull down v3_01 bluetooth"
+docker pull $package""$version"_bluetooth" > /tmp/docker-download.log
+cat /tmp/docker-download.log | grep "Error\|Status"
 
 let stage_count=stage_count+1
 pre_test $stage_count "Pull down v3_01 Monitor App"
