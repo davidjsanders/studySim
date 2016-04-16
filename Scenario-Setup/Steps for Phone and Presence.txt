@@ -1,0 +1,17 @@
+2169  $simpath/Scenario-Setup/Safe-Sex-Notifications/4-context-start.sh
+ 2170  $simpath/Scenario-Setup/Safe-Sex-Notifications/A1-configure-Bluetooth.sh
+ 2171  curl -X POST -d '{"presence-engine":"http://192.168.0.210:43130/v3_00", "user-id":"Jing"}' http://192.168.0.210:43132/v3_00/config/presence ; echo
+ 2172  curl -X POST -d '{"relationship":"friend"}' http://192.168.0.210:43130/v3_00/people/Jing/Bob ; echo
+ 2173  curl -X POST http://192.168.0.210:43126/v3_00/imnear/Bob ; echo
+ 2174  $simpath/show_log.sh
+ 2175  $simpath/Scenario-Setup/Safe-Sex-Notifications/stop-scenario.sh
+ 2176  $simpath/Scenario-Setup/Safe-Sex-Notifications/4-context-start.sh
+ 2177  $simpath/Scenario-Setup/Safe-Sex-Notifications/A1-configure-Bluetooth.sh
+ 2178  curl -X POST -d '{"presence-engine":"http://192.168.0.210:43130/v3_00", "user-id":"Jing"}' http://192.168.0.210:43132/v3_00/config/presence ; echo
+ 2179  curl -X POST -d '{"relationship":"friend"}' http://192.168.0.210:43130/v3_00/people/Jing/Bob ; echo
+ 2180  curl -X POST http://192.168.0.210:43126/v3_00/imnear/Bob ; echo
+ 2181  $simpath/show_log.sh
+ 2182  curl -X POST http://192.168.0.210:43126/v3_00/imnear/Bobby ; echo
+ 2183  $simpath/show_log.sh
+ 2184  $simpath/Scenario-Setup/Safe-Sex-Notifications/stop-scenario.sh
+

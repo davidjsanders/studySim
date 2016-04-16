@@ -10,7 +10,8 @@ function stop_service {
     if [ "X" == "${DOCKER_CHECK}" ]; then
         echo "already stopped."
     else
-        docker stop ${container_name}
+#        docker stop ${container_name}
+        docker kill ${container_name}
         echo -n "Removing reserved name: "
         docker rm -f ${container_name}
         sleep 1
