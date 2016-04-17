@@ -1,4 +1,5 @@
-for i in `seq 0 1 ${array_length}`;
+actual_length=((array_length-1))
+for i in `seq 0 1 ${actual_length}`;
 do
     echo
     echo $header_line
