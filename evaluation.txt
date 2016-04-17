@@ -10,4 +10,6 @@
   450  find . -name "audio.txt" -exec grep "Enjoy sex and enjoy life. Do not expose yourself to HIV!" {} +
   451  find . -name "audio.txt" -exec grep "Wacka! Wacka! Wacka!" {} +
   452  find . -name "Bob.txt" -exec grep "Monitor_App" {} +
+  
+  find simulation-3-v1_00--output--17Apr2016131523/ -name "log.txt" -exec grep -E "SIMENGINE Log Bob|Bluetooth Broadcast" {} +
 
