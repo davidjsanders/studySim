@@ -25,7 +25,7 @@ do
     echo ${top_header_line}
     echo "* Starting ${model_sets[$i]} at "$(date +"%H:%M:%S")
     echo ${top_header_line}
-    $simpath/Simulation-Sets/${simulation_name}/exec-model-${vtu}.sh "-v v"${vtu}"_00"
+    $simpath/Simulation-Sets/${simulation_name}/exec-model-${vtu}.sh -v v${vtu}"_00"
     echo
 done
 
