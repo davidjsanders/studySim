@@ -4,7 +4,7 @@ script_array=("1-Sending-Texts-Raising-Notifications" \
               "4-Bluetooth-Hot-Spot-Notifications" \
               )
 
-model_set="1-no-context-start"
+model_set="4-context-start"
 simulation_name="Notifications"
 simulation_includes=$simpath"/Simulation-Sets/"${simulation_name}"/includes"
 scenario_name="Safe-Sex-Notifications"
