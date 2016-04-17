@@ -1,3 +1,3 @@
-output_folder="simulation-"$simulation"-"$presentAs"--output--"$(date +%d%b%Y%H%M%S)"/"
+output_folder="sim-"$simulation"-model-"$presentAs"-out/"
 mkdir $output_folder
 

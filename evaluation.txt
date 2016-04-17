@@ -1,0 +1,13 @@
+  441  find . -name "Bob.txt"
+  442  find . -name "Bob.txt" -exec grep "Monitor_App" {} +
+  443  find . -name "Bob.txt" -exec grep "Safe Sex" {} +
+  444  find . -name "Bob.txt" -exec grep "Sex" {} +
+  445  find . -name "Bob.txt" -exec grep "HIV" {} +
+  446  find . -name "Bob.txt" -exec grep "Enjoy sex and enjoy life. Do not expose yourself to HIV!" {} +
+  447  find . -name "Bob.txt" -exec grep "Monitor_App" {} +
+  448  find . -name "Bob.txt" -exec grep "Wacka" {} +
+  449  find . -name "Bob.txt" -exec grep "Wacka! Wacka! Wacka!" {} +
+  450  find . -name "audio.txt" -exec grep "Enjoy sex and enjoy life. Do not expose yourself to HIV!" {} +
+  451  find . -name "audio.txt" -exec grep "Wacka! Wacka! Wacka!" {} +
+  452  find . -name "Bob.txt" -exec grep "Monitor_App" {} +
+

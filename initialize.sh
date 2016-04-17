@@ -1,4 +1,40 @@
 #!/bin/bash
+################################################################################
+#
+# Script:       initialize.sh
+# Version:      1.00
+# Last Updated: 17 April 2016
+# Updated By:   D Sanders, University of Liverpool
+# Student ID:   H00035340
+#
+################################################################################
+#
+# Updates
+# -------
+# Who        | When         | Why
+# -----------|--------------|--------------------------------------------------
+# D Sanders  | 17 April 16  | Finalized version for submission.
+#
+################################################################################
+#
+# Purpose: The script ensures that the simulation engine and all models (Docker
+#          containers and images) are up to date. This is the first script that
+#          should be run when preparing a simulation environment.
+#
+################################################################################
+#
+# Usage
+# -----
+# $simpath/run-docker.sh -c name -n Name [-d] [-q] [-r] [-q] \
+#    [-p >1023] [-R >1023] [-s /absolute/path] [-n service-name] \
+#    [-z servername] [-v version] [-h]
+#
+# Parameters
+# ----------
+# None. It uses the same check_params script to set variables but IGNORES them
+# completely.
+#
+################################################################################
 let stage_count=0
 stage_path="v3_00"
 current_directory=$(pwd)
