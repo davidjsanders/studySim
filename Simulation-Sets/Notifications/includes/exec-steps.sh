@@ -1,5 +1,5 @@
 # array lenght is number of items in the array, so -1 for [0..n]
-actual_length=((array_length-1))
+let actual_length=(array_length-1)
 
 # Loop through the array and execute the simulations
 for i in `seq 0 1 ${actual_length}`;
