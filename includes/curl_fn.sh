@@ -1,3 +1,20 @@
+function do_log {
+    # $1 - message
+    # $2 - Test Number
+
+    sender='"sender":"SIM-ENGINE"'
+    logtype='"log-type":"normal"'
+    message='"message":"*** SIMENGINE '$1'"'
+    data='{'$genKey', '$logtype', '$sender', '$message'}'
+
+    pre_test $2 "${1}"
+    curl -X POST \
+        -d "${data}" \
+        $serverName:$loggerPort/$presentAs/log
+
+    post_test
+}
+
 function do_post {
     # $1 - data string
     # $2 - portNumber

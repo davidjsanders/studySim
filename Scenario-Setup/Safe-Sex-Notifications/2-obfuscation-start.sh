@@ -126,7 +126,6 @@ do_logging() {
 # do_settings: Set data, apps, and settings for the phone and conencted devices.
 #
 do_settings() {
-    source $scenario_includes/core-settings.sh
     source $scenario_includes/configure-obfuscation.sh
 }
 #

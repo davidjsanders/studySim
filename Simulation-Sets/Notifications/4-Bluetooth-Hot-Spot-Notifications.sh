@@ -32,7 +32,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
-simulation="2"
+simulation="4"
 simulation_includes=$simpath/Simulation-Sets/Notifications/includes
 source $simpath/includes/check_params.sh
 source $simpath/includes/setup.sh
@@ -64,6 +64,9 @@ set +e
 clear
 start_message "${sim_heading}"
 
+# Setup the phone for Bluetooth
+source $simulation_includes/configure-Bluetooth.sh
+
 # Starting Jing's phone screen
 let test_id=test_id+1
 pre_test $test_id "Sarting Jing's phone screen."
@@ -84,12 +87,11 @@ do_post "${data}" \
 
 # Bob sits with Jing and can see the phone screen
 let test_id=test_id+1
-pre_test $test_id "Bob sits with Jing and can see the phone screen."
-# Phone Screen must be version 3
-start_phone Bob "v3_00"
+pre_test $test_id "Bob sits with Jing, He cannot see the phone but can hear Bluetooth audio."
 
+# Log Bob has left Jing
 let test_id=test_id+1
-do_log "Log Bob phone screen started." $test_id
+do_log "Log Bob is listening to Bluetooth" $test_id
 
 # The train starts moving
 let test_id=test_id+1
@@ -132,12 +134,11 @@ done
 
 # Bob can no longer see the screen
 let test_id=test_id+1
-pre_test $test_id "Bob says bye to Jing and leaves the train at his stop. Bob can no longer see Jing's phone screen."
-stop_phone Bob
+pre_test $test_id "Bob says bye to Jing and leaves the train at his stop. Bob can no longer hear notifications."
 
-# Log Bob has left Jing
+# Log Jing's phone screen has started
 let test_id=test_id+1
-do_log "Log Bob phone screen stopped." $test_id
+do_log "Log Bob can no longer hear Bluetooth output." $test_id
 
 # Pause for 5 seconds to let the notification be detected
 let test_id=test_id+1
@@ -159,6 +160,9 @@ let test_id=test_id+1
 pre_test $test_id "Pause for 10 seconds to allow any notifications to be detected."
 sleep 10
 echo
+
+# Disconnect the phone from Bluetooth
+source $simulation_includes/unconfigure-Bluetooth.sh
 
 # Stopping Jing's phone screen
 let test_id=test_id+1

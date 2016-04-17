@@ -1,7 +1,3 @@
-echo ""
-echo "Configure phone for default apps, data, and settings"
-echo "===================================================="
-echo
 # Connect to Monitor App
 let test_id=test_id+1
 monitor_app='"monitor-app":"'$serverIPName':'$monitorPort'/'$presentAs'"'

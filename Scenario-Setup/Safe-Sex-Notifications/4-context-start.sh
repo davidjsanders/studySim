@@ -105,12 +105,14 @@ do_start() {
     cPort=$contextPort
     cModule="context"
     run_docker
+    contextRunning="TRUE"
 
     # Presence
     cv="v1_00"
     cPort=$presencePort
     cModule="presence"
     run_docker
+    presenceRunning="TRUE"
 
     echo ""
     echo -n "Pausing to let services complete start-up: "
@@ -142,7 +144,6 @@ do_logging() {
 # do_settings: Set data, apps, and settings for the phone and conencted devices.
 #
 do_settings() {
-    source $scenario_includes/core-settings.sh
     source $scenario_includes/configure-obfuscation.sh
     source $scenario_includes/configure-context.sh
 }

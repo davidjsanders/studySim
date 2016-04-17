@@ -35,6 +35,6 @@ echo
 docker run -it \
     --name $NAME \
     --net isolated_nw \
-    $package""$version"_"log_viewer --logger "${logger_param}" $opt_arg
+    $package""$show_log_version"_"log_viewer --logger "${logger_param}" $opt_arg
 docker rm -f $NAME
 

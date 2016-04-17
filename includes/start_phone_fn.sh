@@ -1,7 +1,7 @@
 function start_phone {
     # $1 - Phone Screen viewer, e.g. Bob, Jing, or David, etc.
-    # $2 - Redis port
-    # $3 - override version
+    # $2 - override version
+    # $3 - Redis port
     if ! [[ -z "$3" ]]; then
         redis_to_use=$3
     else

@@ -6,18 +6,20 @@
 not_allowed=''
 number_expression='^[0-9]+$'
 save_param=''
+show_log_version='v3_00'
 let error_occurred=0
 
-usage() { echo "Usage: $0 [-v v9_99] [-p >1023] [-l http://server:port/ver/log] [-n service-name] [-h]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-v logger-version] [-V show_log-version] [-p >1023] [-l http://server:port/ver/log] [-n service-name] [-h]" 1>&2; exit 1; }
 
-while getopts "hn:l:p:v:" param; do
+while getopts "hn:l:p:v:V:" param; do
     case "$param" in
         l) logger_param=$OPTARG
            ;;
         n) name_param=$OPTARG
            ;;
-        v) echo "Version set to "$OPTARG
-           version=$OPTARG
+        v) version=$OPTARG
+           ;;
+        V) show_log_version=$OPTARG
            ;;
         h) usage
            ;;
@@ -50,4 +52,5 @@ if ! [ -z "${ports_param}" ]; then
 else
     start_port=43124
 fi
+tVersion=$version
 

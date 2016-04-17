@@ -162,7 +162,7 @@ set -e
 do_start
 set +e      # Ignore errors during settings and logging
 do_logging
-do_settings
+#do_settings
 set -e      # Turn error handling back on
 do_summary
 

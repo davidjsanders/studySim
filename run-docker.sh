@@ -130,8 +130,8 @@ if [ "$daemon_param" == "-it " ]; then
     docker rm $name_param""$container_name
 else
     if [[ "$quiet_mode" == "V" ]]; then
-        echo "Stop the contianer when done by issuing: docker stop "$lName"_"$container_name
-        echo "Then remove the contianer: docker rm "$lName"_"$container_name
+        echo "Stop the contianer when done by issuing: docker stop "$name_param"_"$container_name
+        echo "Then remove the contianer: docker rm "$name_param"_"$container_name
     fi
 fi
 

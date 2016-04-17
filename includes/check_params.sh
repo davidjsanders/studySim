@@ -27,8 +27,7 @@ while getopts ":shp:v:" param; do
                break
            fi
            ;;
-        v) echo "Version set to "$OPTARG
-           version=$OPTARG
+        v) version=$OPTARG
            ;;
         h) usage
            ;;
