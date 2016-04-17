@@ -64,6 +64,9 @@ set +e
 clear
 start_message "${sim_heading}"
 
+# Setup the phone for monitored apps
+source $simulation_includes/configure-monitored-locations.sh
+
 # Setup the phone for Bluetooth
 source $simulation_includes/configure-Bluetooth.sh
 
@@ -97,7 +100,7 @@ do_log "Log Bob is listening to Bluetooth" $test_id
 let test_id=test_id+1
 pre_test $test_id "The train is moving"
 let inner_counter=1
-for i in `seq 120 100 420`;
+for i in `seq 100 100 450`;
 do
     # Define the phone's starting location
     loc_x='"x":'${i}
@@ -160,6 +163,9 @@ let test_id=test_id+1
 pre_test $test_id "Pause for 10 seconds to allow any notifications to be detected."
 sleep 10
 echo
+
+# Disconnect the phone from monitored locations
+source $simulation_includes/unconfigure-monitored-locations.sh
 
 # Disconnect the phone from Bluetooth
 source $simulation_includes/unconfigure-Bluetooth.sh

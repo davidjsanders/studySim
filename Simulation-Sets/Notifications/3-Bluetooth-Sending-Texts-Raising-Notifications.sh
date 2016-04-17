@@ -67,7 +67,6 @@ echo
 pause "Please ensure setup has been run before the simulation "
 
 set +e
-clear
 start_message "${sim_heading}"
 
 # Setup the phone for monitored apps

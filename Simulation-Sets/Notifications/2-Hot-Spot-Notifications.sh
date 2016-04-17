@@ -61,8 +61,10 @@ echo
 pause "Please ensure setup has been run before the simulation "
 
 set +e
-clear
 start_message "${sim_heading}"
+
+# Setup the phone for monitored apps
+source $simulation_includes/configure-monitored-locations.sh
 
 # Starting Jing's phone screen
 let test_id=test_id+1
@@ -95,7 +97,7 @@ do_log "Log Bob phone screen started." $test_id
 let test_id=test_id+1
 pre_test $test_id "The train is moving"
 let inner_counter=1
-for i in `seq 120 100 420`;
+for i in `seq 100 100 450`;
 do
     # Define the phone's starting location
     loc_x='"x":'${i}
@@ -159,6 +161,9 @@ let test_id=test_id+1
 pre_test $test_id "Pause for 10 seconds to allow any notifications to be detected."
 sleep 10
 echo
+
+# Disconnect the phone from monitored locations
+source $simulation_includes/unconfigure-monitored-locations.sh
 
 # Stopping Jing's phone screen
 let test_id=test_id+1

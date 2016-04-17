@@ -49,7 +49,7 @@ fi
 # do_initialize: Setup any variables and headings required
 #
 do_initialize() {
-    sim_heading="NOTIFICATIONS: No Context - Send notifications with no context - Start"
+    sim_heading="Scenario: Safe Sex Notificiations - Full Context - Start"
     scenario_includes=$simpath/Scenario-Setup/Safe-Sex-Notifications/includes
 }
 #
@@ -177,7 +177,6 @@ source $simpath/includes/setup.sh
 source $scenario_includes/additional_ports.sh
 source $simpath/includes/set_version.sh
 
-clear
 set +e
 start_message "${sim_heading}"
 set -e
