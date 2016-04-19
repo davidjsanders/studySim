@@ -5,6 +5,22 @@ pre_test $test_id "Downloading phone main screen saving to ${screen_filename}"
 wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}" || true
 echo
 
+if [ ${phone2InUse} ]; then
+    let test_id=test_id+1
+    screen_filename=$output_folder"screen-"${phone2Port}".txt"
+    pre_test $test_id "Downloading phone screen screen-${phone2Port} saving to ${screen_filename}"
+    wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}" || true
+    echo
+fi
+
+if [ ${phone3InUse} ]; then
+    let test_id=test_id+1
+    screen_filename=$output_folder"screen-"${phone3Port}".txt"
+    pre_test $test_id "Downloading phone screen screen-${phone3Port} saving to ${screen_filename}"
+    wget $serverIPName:$phonePort/$presentAs/config/screen -O "${screen_filename}" || true
+    echo
+fi
+
 # Get the Bluetooth audio default file
 let test_id=test_id+1
 audio_filename=$output_folder"audio.txt"
