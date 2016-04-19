@@ -185,7 +185,6 @@ source $simpath/includes/setup.sh
 source $scenario_includes/additional_ports.sh
 source $simpath/includes/set_version.sh
 
-clear
 set +e
 start_message "${sim_heading}"
 set -e

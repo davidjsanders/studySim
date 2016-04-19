@@ -8,6 +8,7 @@
 #    Overivew:   
 #                Bob's phone is phone-43132
 #                Sue's phone is phone-43133
+#                Andrew's phone is phone-43134
 #
 #
 #    Revision History
@@ -31,7 +32,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
-simulation="1"
+simulation="2"
 simulation_includes=$simpath/Simulation-Sets/Notifications/includes
 scenario_includes=$simpath/Scenario-Setup/In-Car-Notifications/includes
 
@@ -100,6 +101,15 @@ if ! [ "X" == "${DOCKER_CHECK}" ]; then
             "Sue is defined in presence as spouse of Bob" \
             $test_id
 
+    # Set Andrew up as Bob's colleague
+    let test_id=test_id+1
+    relationship='"relationship":"colleague"'
+    data='{'$genKey', '$relationship'}'
+    do_post "${data}" \
+            $presencePort \
+            "/"$presentAs"/people/Bob/Andrew" \
+            "Andrew is defined in presence as colleague of Bob" \
+            $test_id
 fi
 
 # If context is available, configure it.
@@ -126,6 +136,15 @@ start_phone Sue "v3_00" $phone2RedisPort
 
 let test_id=test_id+1
 do_log "Log Sue phone screen started." $test_id
+
+# Starting Andrews's phone screen
+let test_id=test_id+1
+pre_test $test_id "Starting Andrew's phone screen."
+# Phone Screen must be version 3
+start_phone Andrew "v3_00" $phone3RedisPort
+
+let test_id=test_id+1
+do_log "Log Andrew phone screen started." $test_id
 
 # Log Bob and Sue enter car
 let test_id=test_id+1
@@ -198,18 +217,37 @@ do_post "${data}" \
          "Bob receives an alert from his medical monitoring system" \
          $test_id
 
-# The Bluetooth system asks phones who is near. Sue's phone responds
-# she is near Bob.
+# Sleep to emulate driving
+let test_id=test_id+1
+pre_test $test_id "Emulating driving. Sleeping for 10 seconds"
+sleep 10
+
+# Andrew gets in the car
+let test_id=test_id+1
+pre_test $test_id "Bob and Sue pick up Andrew"
+
+# Log Andrew can hear Bluetooth
+let test_id=test_id+1
+do_log "Log Andrew is listening to Bluetooth" $test_id
+
+# The Bluetooth system asks phones who is near. Sue and Andrew's phone responds
+# they are near Bob.
 let test_id=test_id+1
 do_post '{"ignore":"me"}' \
         $bluePort \
         "/"$presentAs"/imnear/Sue" \
         $test_id
 
+let test_id=test_id+1
+do_post '{"ignore":"me"}' \
+        $bluePort \
+        "/"$presentAs"/imnear/Andrew" \
+        $test_id
+
 # Sleep to emulate driving
 let test_id=test_id+1
-pre_test $test_id "Emulating driving. Sleeping for 10 seconds"
-sleep 10
+pre_test $test_id "Emulating driving. Sleeping for 5 seconds"
+sleep 5
 
 # Send a Medical Alert to the phone
 let test_id=test_id+1
@@ -226,6 +264,27 @@ do_post "${data}" \
          "Bob receives an urgent alert from his medical monitoring system" \
          $test_id
 
+# Sleep to emulate driving
+let test_id=test_id+1
+pre_test $test_id "Emulating driving. Sleeping for 5 seconds"
+sleep 5
+
+# Andrew can no longer see the screen
+let test_id=test_id+1
+pre_test $test_id "Andrew says bye to Bob and Sue as he leaves them. Andrew can no longer hear notifications."
+
+let test_id=test_id+1
+do_delete '{"ignore":"me"}' \
+        $bluePort \
+        "/"$presentAs"/imnear/Andrew" \
+        "Andrew is no longer near Bob" \
+        $test_id
+
+# Sleep to emulate driving
+let test_id=test_id+1
+pre_test $test_id "Emulating driving. Sleeping for 5 seconds"
+sleep 5
+
 # Send a Medical Alert to the phone
 let test_id=test_id+1
 recipient='"recipient":"'$serverIPName':'$phonePort'/'$presentAs'/notification"'
@@ -240,6 +299,10 @@ do_post "${data}" \
          "/"$presentAs"/notification" \
          "Bob receives an urgent alert from his medical monitoring system" \
          $test_id
+
+# Log Jing's phone screen has started
+let test_id=test_id+1
+do_log "Log Andrew can no longer hear Bluetooth output." $test_id
 
 # Sleep to emulate driving
 let test_id=test_id+1
@@ -288,6 +351,15 @@ stop_phone Sue $presentAs $phone2RedisPort
 # Log it
 let test_id=test_id+1
 do_log "Log Sue phone screen stopped." $test_id
+
+# Andrew switches his phone off.
+let test_id=test_id+1
+pre_test $test_id "Andrew switches his phone screen off."
+stop_phone Andrew $presentAs $phone3RedisPort
+
+# Log it
+let test_id=test_id+1
+do_log "Log Andrew phone screen stopped." $test_id
 
 # Get the standard outputs
 source $simpath/includes/get_standard_outputs.sh

@@ -51,7 +51,6 @@ source $simpath/includes/set_version.sh
 #
 sim_heading="NOTIFICATIONS: Stopping active scenarios."
 
-clear
 set +e
 start_message "${sim_heading}"
 set -e
