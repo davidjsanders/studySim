@@ -32,7 +32,7 @@ if [ "X"$simpath == "X" ]; then
     exit 1
 fi
 
-simulation="2"
+simulation="3"
 simulation_includes=$simpath/Simulation-Sets/Notifications/includes
 scenario_includes=$simpath/Scenario-Setup/In-Car-Notifications/includes
 
@@ -105,17 +105,20 @@ if ! [ "X" == "${DOCKER_CHECK}" ]; then
             $test_id
 
     let test_id=test_id+1
-    do_log "SIMENGINE Setting Andrew as a colleague of Bob." $test_id
+    do_log "SIMENGINE Setting Andrew as a stranger to Bob." $test_id
 
+    #
+    # DONT define Andrew - he's a stranger in this simulation.
+    #
     # Set Andrew up as Bob's colleague
-    let test_id=test_id+1
-    relationship='"relationship":"colleague"'
-    data='{'$genKey', '$relationship'}'
-    do_post "${data}" \
-            $presencePort \
-            "/"$presentAs"/people/Bob/Andrew" \
-            "Andrew is defined in presence as colleague of Bob" \
-            $test_id
+    #let test_id=test_id+1
+    #relationship='"relationship":"colleague"'
+    #data='{'$genKey', '$relationship'}'
+    #do_post "${data}" \
+    #        $presencePort \
+    #        "/"$presentAs"/people/Bob/Andrew" \
+    #        "Andrew is defined in presence as colleague of Bob" \
+    #        $test_id
 fi
 
 # If context is available, configure it.
