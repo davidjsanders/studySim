@@ -4,18 +4,9 @@
 #    Student No:  H00035340
 #    Date:        12 Apr 2016
 #    ------------------------------------------------------------------------
-#    Overivew:    no-context-start.sh sets up the Notification scenario to be
-#                 used exactly as the notification app - all notifications
-#                 sensitive, or not, are shown whether the phone is locked or
-#                 unlocked.
-#
-#    Models:
-#    1. dsanderscan/mscit_v3_00_logger - central logging
-#    2. dsanderscan/mscit_v3_00_bluetooth - Bluetooth service
-#    3. dsanderscan/mscit_v3_00_location - Location service
-#    4. dsanderscan/mscit_v3_00_monitor_app - Monitor App service
-#    5. dsanderscan/mscit_v3_00_notification - Notification service
-#    6. dsanderscan/mscit_v3_00_phone - Phone model
+#    Overivew:    stop-scenario stops all models in the scenario, whether in use
+#                 or not. Any models already stopped simply report back they are
+#                 stopped.
 #
 #
 #    Revision History
